@@ -2,121 +2,175 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Eastern Railway Network – CrowdSense</title>
+  <title>Crowd Sense Prototype - Eastern Railway</title>
   <style>
     body {
-      margin: 0;
+      margin: 0; background: #0855a1;
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #053e7b 0%, #3993dd 100%);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      color: #222;
     }
-    header {
-      margin-top: 48px;
-      margin-bottom: 16px;
-      color: #fff;
-      text-align: center;
-      text-shadow: 0 3px 12px #091941;
+    .container {
+      max-width: 480px;
+      margin: 32px auto;
+      background: #f3faff;
+      border-radius: 16px;
+      box-shadow: 0 6px 30px #0a3e5a33;
+      padding: 24px 16px 38px 16px;
     }
-    .main-img {
-      margin-bottom: 28px;
-      border-radius: 18px;
-      box-shadow: 0 4px 38px #04387699;
-      max-width: 420px;
-      width: 96vw;
-    }
-    .card {
-      background: rgba(17,40,104,0.92);
-      border-radius: 22px;
-      box-shadow: 0 6px 38px #0a296b55;
-      padding: 2em 2.5em 2em 2.5em;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 36px;
-      max-width: 900px;
-      width: 96vw;
-    }
-    h2 {
-      margin-top: 0.5em;
-      color: #76e3ff;
-      text-shadow: 0 1px 8px #2225;
-    }
-    .stations, .other-stations {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-      margin-top: 1.2em;
-      margin-bottom: 1em;
-    }
-    .station, .other-station {
-      background: linear-gradient(90deg, #1387ff 0%, #55d0fd 85%);
-      color: #fff;
-      padding: 0.7em 2em;
-      border-radius: 14px;
-      font-size: 1.1em;
-      box-shadow: 0 2px 14px #0456a344;
-      margin-bottom: 0.5em;
-      font-weight: 500;
-      transition: background 0.16s, transform 0.16s;
+    h1 {
+      text-align: center; color: #0663c7;
+      margin-bottom: 8px;
+      font-size: 1.7em;
       letter-spacing: 0.5px;
     }
-    .station:hover, .other-station:hover {
-      background: linear-gradient(90deg, #55d0fd 0%, #1387ff 85%);
-      transform: scale(1.08);
-      cursor: pointer;
+    img.main {
+      display: block; margin: 0 auto 8px auto;
+      max-width: 420px; width: 97vw;
+      border-radius: 12px; box-shadow: 0 2px 16px #3975b4aa;
     }
-    .note {
-      color: #d0f5ff;
-      font-size: 1em;
-      margin-top: 18px;
+    .card {
+      background: #e0f2ff;
+      border-radius: 13px;
+      box-shadow: 0 3px 16px #2d6ea90f;
+      padding: 18px 14px;
+      margin-bottom: 16px;
     }
-    @media (max-width: 600px) {
-      .card { padding: 1em; }
-      .main-img { max-width: 98vw; }
-      .station, .other-station { font-size: 0.9em; padding: 0.6em 1em; }
+    label, .label {
+      display: block; font-weight: 600; margin-bottom: 4px; color: #2770ad;
+    }
+    .searchbar, .trainlist { margin-bottom: 14px;}
+    input, select, button {
+      padding: 7px 12px;
+      font-size: 1em; border-radius: 7px;
+      border: 1px solid #90cdf4; margin-bottom: 8px;
+      margin-right: 4px;
+    }
+    button { background: #0476cd; color: #fff; border: none; cursor: pointer;}
+    button:hover { background: #0d56a5;}
+    .search-history {
+      font-size: 0.95em; color: #206d9e;
+      border-top: 1px dashed #aba;
+      margin-top: 8px; padding-top: 4px;
+    }
+    .route-arrow {
+      font-size: 1.5em; color: #2770ad; font-weight: 700; margin: 0 9px;
+    }
+    .trainlist .label { margin-bottom: 7px;}
+    .trainitem {
+      background: #eaf6fc;
+      border-radius: 10px;
+      margin-bottom: 7px;
+      padding: 7px 12px;
+      box-shadow: 0 2px 10px #1580f022;
+      display: flex; flex-direction: column;
+    }
+    .trainroute {
+      font-size: 1.04em; color: #1e468a; font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .traindetails {
+      font-size: 0.97em;
+      color: #222;
+      margin-bottom: 2px;
+    }
+    .crowdcard {
+      background: #f8fbff;
+      border-radius: 15px; 
+      box-shadow: 0 3px 14px #5ecfff18; 
+      padding: 17px 14px; margin-top: 14px; margin-bottom: 16px;
+    }
+    .crowdheader {
+      color: #205888; font-weight: 600; font-size: 1.18em; margin-bottom: 7px;
+    }
+    .crowdbar {
+      display: flex;
+      gap: 4px;
+      margin: 11px 0 6px 0;
+      justify-content: center;
+    }
+    .barlabel {
+      font-size: 0.95em; color: #266cae; margin: 0 1px;
+      opacity: 0.7;
+    }
+    .crowdlevel {
+      width: 26px; height: 65px; border-radius: 7px 7px 0 0;
+      box-shadow: 0 2px 7px #2d6ea9aa;
+      display: flex; align-items: flex-end; justify-content: center;
+      font-size: 0.98em; letter-spacing: -1px; color: #242;
+      font-weight: 700;
+    }
+    /* Color-code crowd bars */
+    .high { background: #ff3535;}
+    .medium { background: #ffec79;}
+    .low { background: #4af442;}
+    .legend {
+      text-align: center; margin-top: 5px; margin-bottom: 3px;
+      font-size: 0.93em; color: #2d6ea9;
+    }
+    .stationslist {
+      background: #eaf3fe; border-radius: 9px; padding: 7px;
+      font-size: 0.99em; color: #205888; margin-bottom:5px;
+      box-shadow:0 1px 5px #2077ca15;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Eastern Railway Network <br>CrowdSense Prototype</h1>
-  </header>
-
-  <img src="image.jpg" class="main-img" alt="Eastern Railway Train">
-
-  <div class="card">
-    <h2>Main Divisions / Stations</h2>
-    <div class="stations">
-      <div class="station">Howrah</div>
-      <div class="station">Sealdah</div>
-      <div class="station">Asansol</div>
-      <div class="station">Malda Town</div>
-      <div class="station">Durgapur</div>
-      <div class="station">Bardhaman</div>
-      <div class="station">New Jalpaiguri</div>
-      <div class="station">Kharagpur</div>
+  <div class="container">
+    <h1>Crowd Sense Prototype</h1>
+    <img src="world.jpg" class="main" alt="Prototype Sketch">
+    
+    <div class="card searchbar">
+      <label>From</label>
+      <input type="text" value="Howrah" readonly>
+      <span class="route-arrow">&#8595;</span>
+      <label>To</label>
+      <input type="text" value="Nalikul" readonly>
+      <br>
+      <button>Find Trains</button>
+      <br>
+      <label>Train No/Name</label>
+      <input type="text" placeholder="Search Train...">
+      <div class="search-history">Search History: Howrah</div>
     </div>
-    <h2>Other Stations of ER</h2>
-    <div class="other-stations">
-      <div class="other-station">Bolpur Shantiniketan</div>
-      <div class="other-station">Katwa</div>
-      <div class="other-station">Naihati</div>
-      <div class="other-station">Ranaghat</div>
-      <div class="other-station">Barasat</div>
-      <div class="other-station">Chittaranjan</div>
-      <div class="other-station">Jamalpur</div>
-      <div class="other-station">Bhagalpur</div>
-      <div class="other-station">Siliguri</div>
-      <div class="other-station">Pakur</div>
-      <div class="other-station">Rampurhat</div>
-      <div class="other-station">Jasidih</div>
-      <!-- Add more as per your need -->
+    
+    <div class="card trainlist">
+      <div class="label">Available Trains</div>
+      <div class="trainitem">
+        <div class="trainroute">Howrah–Tarakeswar Local (37353)</div>
+        <div class="traindetails">Departs: 6:10 PM | Arrives Nalikul: 7:02 PM</div>
+      </div>
+      <div class="trainitem">
+        <div class="trainroute">Howrah–Gomoh Local (33379)</div>
+        <div class="traindetails">Departs: 6:40 PM | Arrives Nalikul: 7:32 PM</div>
+      </div>
+      <div class="trainitem">
+        <div class="trainroute">Other Trains…</div>
+        <div class="traindetails">Details hidden</div>
+      </div>
     </div>
-    <div class="note">Hover for a glowing effect. All stations are part of Indian Eastern Railway network.</div>
+    
+    <div class="crowdcard">
+      <div class="crowdheader">Live Crowd Detection View – Train 37379</div>
+      <div class="stationslist">
+        <b>Route Stations:</b> Hariral, Maliya Halt, Nalikul, Kamarkundu, Singur
+      </div>
+      <div class="crowdbar">
+        <div class="crowdlevel low">9</div>
+        <div class="crowdlevel medium">8</div>
+        <div class="crowdlevel medium">7</div>
+        <div class="crowdlevel high">5</div>
+        <div class="crowdlevel high">3</div>
+        <div class="crowdlevel medium">2</div>
+        <div class="crowdlevel low">1</div>
+      </div>
+      <div class="legend">
+        <span style="color:#ff3535;">Red = High Crowd</span>,
+        <span style="color:#ffec79;">Yellow = Medium Crowd</span>,
+        <span style="color:#4af442;">Green = Low Crowd</span>
+      </div>
+      <div class="barlabel">← TAIL    HWH    FRONT →</div>
+    </div>
   </div>
 </body>
 </html>
