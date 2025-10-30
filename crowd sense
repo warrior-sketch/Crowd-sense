@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crowd Sense | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin: 0;
+      color: #222;
+      background: #f5f8fa;
+      line-height: 1.65;
+    }
+    header {
+      background: #222;
+      color: #fff;
+      padding: 18px 0 8px 0;
+      box-shadow: 0 4px 12px rgba(40,40,50,0.12);
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    nav {
+      text-align: right;
+      padding-right: 20px;
+    }
+    nav a {
+      color: #f9da4f;
+      text-decoration: none;
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 16px;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #eb7d34;
+    }
+    h1, h2, h3 {
+      font-family: 'Montserrat', Arial, sans-serif;
+      margin-top: 0.5em;
+      margin-bottom: 0.3em;
+      font-weight: 700;
+    }
+    .main-banner {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding-top: 24px;
+      flex-wrap: wrap;
+    }
+    .main-banner img {
+      width: 320px;
+      max-width: 90vw;
+      border-radius: 26px;
+      box-shadow: 0 6px 44px rgba(30,30,60,0.14);
+    }
+    .highlight {
+      color: #eb7d34;
+      font-weight: bold;
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px 44px;
+      padding: 30px 0;
+    }
+    .feature-box {
+      flex: 1 1 220px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 3px 12px rgba(40,40,50,0.05);
+      padding: 26px 18px 22px 18px;
+      min-width: 210px;
+      max-width: 340px;
+      transition: box-shadow 0.2s;
+    }
+    .feature-box:hover {
+      box-shadow: 0 12px 50px rgba(180,140,70,0.09);
+    }
+    footer {
+      background: #181a1b;
+      color: #bbb;
+      text-align: center;
+      padding: 22px 10px 19px 10px;
+      margin-top: 35px;
+      font-size: 14px;
+    }
+    @media (max-width: 720px) {
+      .main-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Crowd Sense</h1>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <div class="container">
+    <section class="main-banner">
+      <div>
+        <h2>Welcome to <span class="highlight">Crowd Sense</span></h2>
+        <p>
+          An intuitive platform for organizing crowd-driven projects and events smoothly.
+          Whether you’re hosting a festival, a conference, or a community initiative,
+          <span class="highlight">Crowd Sense</span> helps you keep everyone informed, engaged, and connected.
+        </p>
+        <p>
+          <b>Discover features built for hassle-free management and a great participant experience.</b>
+        </p>
+      </div>
+      <img src="crowd-sense.jpg" alt="Crowd Sense Banner">
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>
+        <span class="highlight">Crowd Sense</span> is designed to make crowd management easier and more effective. We offer an all-in-one solution for event organizers, volunteers, and attendees to collaborate seamlessly. Our goal: <b>enable effortless communication and smooth event flow</b> with tools that anyone can use—no technical expertise required.
+      </p>
+      <p>
+        With a clean interface and real-time updates, we help you avoid confusion, reduce wait times, and make every event memorable for the right reasons!
+      </p>
+    </section>
+
+    <section id="features">
+      <h2>Key Features</h2>
+      <div class="features">
+        <div class="feature-box">
+          <h3>Easy Event Setup</h3>
+          <p>
+            Create, customize, and launch new events in minutes. Set schedules, upload maps, and define roles — all in a couple of clicks.
+          </p>
+        </div>
+        <div class="feature-box">
+          <h3>Live Announcements</h3>
+          <p>
+            Instantly broadcast critical updates, schedule changes, or emergency notifications to everyone participating in your event.
+          </p>
+        </div>
+        <div class="feature-box">
+          <h3>Volunteer Coordination</h3>
+          <p>
+            Manage volunteers, assign duties, track attendance, and acknowledge contributions — all in one place.
+          </p>
+        </div>
+        <div class="feature-box">
+          <h3>Interactive Maps</h3>
+          <p>
+            Help attendees find stalls, stages, and facilities with clickable, always-updated maps accessible on any device.
+          </p>
+        </div>
+        <div class="feature-box">
+          <h3>Schedule at a Glance</h3>
+          <p>
+            Present the entire agenda on a streamlined timeline, making it super easy for everyone to keep track of what’s happening now and next.
+          </p>
+        </div>
+        <div class="feature-box">
+          <h3>Feedback Made Simple</h3>
+          <p>
+            Built-in feedback forms let you gather suggestions and reviews to improve future events.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        Have any questions or want to suggest a feature?<br>
+        Email us at <a href="mailto:support@crowdsense.com">support@crowdsense.com</a> or connect on Twitter <a href="https://twitter.com/crowdsense" target="_blank">@crowdsense</a>.
+      </p>
+    </section>
+  </div>
+  <footer>
+    &copy; 2025 Crowd Sense. All rights reserved.
+  </footer>
+</body>
+</html>
