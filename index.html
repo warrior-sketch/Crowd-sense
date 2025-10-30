@@ -14,20 +14,20 @@
     .container {
       max-width: 430px;
       margin: 40px auto 0 auto;
-      padding: 0 15px 30px 15px;
+      padding: 0 15px 27px 15px;
     }
     .card {
       background: rgba(255,255,255,0.11);
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(21,101,192,0.08);
-      padding: 22px 25px 23px 25px;
-      margin-bottom: 28px;
+      padding: 23px 22px 27px 22px;
+      margin-bottom: 26px;
       border: 2px solid #fff2;
     }
     .nav {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 32px;
+      margin-bottom: 34px;
       font-size: 19px;
       color: #fff;
       font-weight: 600;
@@ -35,9 +35,9 @@
     .nav a {
       color: #fff;
       text-decoration: none;
-      padding: 10px 28px;
+      padding: 11px 34px;
       background: #1856a5;
-      border-radius: 15px;
+      border-radius: 13px;
       transition: background .2s;
     }
     .nav a.active, .nav a:hover {
@@ -45,12 +45,10 @@
       color: #1565c0;
     }
     h2 {
-      font-size: 28px;
+      font-size: 26px;
       margin-top: 0;
-      margin-bottom: 18px;
+      margin-bottom: 15px;
       color: #fff;
-      font-family: 'Segoe UI', 'Arial', sans-serif;
-      text-shadow: 0 2px 6px #1565c011;
     }
     label {
       font-weight: 600;
@@ -61,7 +59,7 @@
       padding: 8px 12px;
       border-radius: 6px;
       border: 1.5px solid #1565c0;
-      margin-bottom: 15px;
+      margin-bottom: 13px;
       font-size: 16px;
       background: #e3f2fd;
       color: #1565c0;
@@ -78,36 +76,35 @@
       box-shadow: 0 2px 8px rgba(21,101,192, 0.12);
       width: 100%;
       cursor: pointer;
-      margin-top: 7px;
-      margin-bottom: 7px;
+      margin: 10px 0 4px 0;
       transition: background .15s;
     }
     button:hover {
       background: #0d2d5b;
     }
     .train-list {
-      margin: 0 0 0 0;
+      margin: 13px 0 0 0;
       padding-left: 0;
       list-style: none;
     }
     .train-list li {
-      padding: 6px 0;
+      padding: 7px 0 6px 0;
       font-weight: 500;
       font-size: 17px;
       color: #fff;
-      border-bottom: 1px solid #bbdefb55;
+      border-bottom: 1px solid #bbdefb3a;
+      margin-bottom: 0;
     }
     .crowd-barrow {
       display: flex;
       gap: 7px;
       justify-content: center;
       align-items: end;
-      margin: 20px 0 10px 0;
+      margin: 19px 0 10px 0;
     }
     .crowd-bar {
       width: 24px;
-      height: 52px;
-      border-radius: 5px;
+      border-radius: 7px;
       border: 2px solid #fff;
       display: flex;
       align-items: flex-end;
@@ -116,21 +113,23 @@
       font-weight: bold;
       color: #fff;
       margin-bottom: 3px;
-      box-shadow: 0 5px 8px #2221;
+      box-shadow: 0 4px 8px #2222;
     }
-    .red    {background: #e53935;}
-    .yellow {background: #ffc107;}
-    .green  {background: #43a047;}
+    .red    {background: #e53935; height: 48px}
+    .yellow {background: #ffc107; height: 38px; color:#222}
+    .green  {background: #43a047; height: 27px}
     .crowd-guide {
       text-align: center;
       color: #fff;
       font-size: 14px;
-      margin-top: 7px;
+      margin-top: 4px;
+      letter-spacing: 2px;
+      font-weight: 500;
     }
     .crowd-legend span {
       display: inline-block;
       margin-right: 13px;
-      padding:5px 12px;
+      padding:5px 10px;
       border-radius: 4px;
       font-weight: 600;
       box-shadow:0 1px 4px #0001;
@@ -141,25 +140,29 @@
     .legend-low {background:#43a047;}
     .stop-dot {
       display:inline-block;
-      width:15px;
-      height:15px;
+      width:14px;
+      height:14px;
       border-radius:50%;
       background:#2196f3;
-      margin-right:6px;
+      position:relative;
+      top:2px;
+      margin-right:8px;
     }
+    .sub {font-size:15px;color:#bbdefb;}
+    .arrived {font-size:15px;font-style:italic;color:#bbdefb;}
+    hr {border:0.5px solid #fff2}
   </style>
 </head>
 <body>
   <div class="container">
     <div class="nav">
-      <a href="#route" class="active" onclick="showPage('route')">Route Select</a>
-      <a href="#available" onclick="showPage('available')">Available Trains</a>
-      <a href="#tracking" onclick="showPage('tracking')">Live Tracking</a>
+      <a href="#info" class="active" onclick="showPage('info')">Train Info</a>
+      <a href="#crowd" onclick="showPage('crowd')">Crowd View</a>
     </div>
 
-    <!-- Page 1 -->
-    <div id="route" class="card">
-      <h2>Step 1: Select Route</h2>
+    <!-- Page 1: Train Info -->
+    <div id="info" class="card">
+      <h2>Select Route & View Train Info</h2>
       <label>From</label>
       <input type="text" value="HOWRAH">
       <label>To</label>
@@ -168,50 +171,32 @@
       <input type="text" placeholder="Optional">
       <label>Search History</label>
       <input type="text" value="HOWRAH ...">
-      <button onclick="showPage('available')">Find Trains</button>
-    </div>
-
-    <!-- Page 2 -->
-    <div id="available" class="card" style="display:none;">
-      <h2>Step 2: Available Trains</h2>
-      <label>Show:</label>
-      <select>
-        <option>All Dates</option>
-        <option>Today</option>
-        <option>Tomorrow</option>
-      </select>
-      <label>Sort by:</label>
-      <select>
-        <option>Time</option>
-        <option>Name</option>
-      </select>
-      <b>Route: HWH-HOWRAH → NKL-NALIKUL</b>
+      <b>Available Trains for Route: HWH-HOWRAH → NKL-NALIKUL</b>
       <ul class="train-list">
-        <li>37353 : 6:10pm - 7:02pm (HOWRAH-TARAKESWAR LOCAL)</li>
-        <li>33379 : 6:40pm - 7:32pm (HOWRAH-GHOMOHAT LOCAL)</li>
-        <li>33366 : --:-- (No details)</li>
-        <li>33341 : --:-- (No details)</li>
-        <li>33318 : --:-- (No details)</li>
-        <li>33301 : --:-- (No details)</li>
+        <li><b>37353</b> : 6:10pm - 7:02pm <span class="sub">(HOWRAH-TARAKESWAR LOCAL)</span></li>
+        <li><b>33379</b> : 6:40pm - 7:32pm <span class="sub">(HOWRAH-GHOMOHAT LOCAL)</span></li>
+        <li><b>33366</b> : --:-- <span class="sub">(No details)</span></li>
+        <li><b>33341</b> : --:-- <span class="sub">(No details)</span></li>
+        <li><b>33318</b> : --:-- <span class="sub">(No details)</span></li>
+        <li><b>33301</b> : --:-- <span class="sub">(No details)</span></li>
       </ul>
-      <button onclick="showPage('tracking')">Track Crowd</button>
+      <button onclick="showPage('crowd')">Show Crowd Detection</button>
     </div>
 
-    <!-- Page 3 -->
-    <div id="tracking" class="card" style="display:none;">
-      <h2>Step 3: Live Train Tracking</h2>
+    <!-- Page 2: Crowd Detection -->
+    <div id="crowd" class="card" style="display:none;">
+      <h2>Live Crowd Detection</h2>
       <b>Train:</b> HOWRAH-TARAKESWAR LOCAL (37379)<br>
-      <b>Today | Alarm | Share</b><br>
-      <b>Arrival:</b> HARIRAL 6:33PM<br>
-      <b>Next Stops:</b> <br>
+      <span class="arrived">Arrived Hariral | Updated few seconds ago</span>
+      <hr>
+      <b>Stops:</b> <br>
+      <span class="stop-dot"></span> HARIRAL 6:33PM <br>
       <span class="stop-dot"></span> MALIYA HALT 6:36PM <br>
       <span class="stop-dot"></span> NALIKUL 6:40PM <br>
       <span class="stop-dot"></span> KAMARKUNDU 6:43PM <br>
       <span class="stop-dot"></span> SINGUR 6:45PM <br>
-      <hr style="border:0.5px solid #fff2">
-      <b>Arrived Hariral</b> <br>
-      <i style="color:#bbdefb">Updated few seconds ago</i>
-      <h3 style="margin-top:17px;">Current Crowd Update</h3>
+      <hr>
+      <h3 style="margin-bottom:0;">Current Crowd Update</h3>
       <div class="crowd-barrow">
         <div class="crowd-bar green">9</div>
         <div class="crowd-bar green">8</div>
@@ -224,21 +209,19 @@
         <div class="crowd-bar green">1</div>
       </div>
       <div class="crowd-guide">
-        TAIL &nbsp;&nbsp; HWH &nbsp;&nbsp; FRONT
+        TAIL &nbsp; | &nbsp; HWH &nbsp; | &nbsp; FRONT
       </div>
-      <div class="crowd-legend">
+      <div class="crowd-legend" style="margin:12px 0 0 0;">
         <span class="legend-high">High</span>
         <span class="legend-med">Medium</span>
         <span class="legend-low">Low</span>
       </div>
     </div>
   </div>
-
   <script>
     function showPage(page) {
-      document.getElementById('route').style.display = (page === 'route') ? '' : 'none';
-      document.getElementById('available').style.display = (page === 'available') ? '' : 'none';
-      document.getElementById('tracking').style.display = (page === 'tracking') ? '' : 'none';
+      document.getElementById('info').style.display = (page === 'info') ? '' : 'none';
+      document.getElementById('crowd').style.display = (page === 'crowd') ? '' : 'none';
 
       var navs = document.querySelectorAll('.nav a');
       navs.forEach(nav => nav.classList.remove('active'));
