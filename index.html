@@ -271,14 +271,14 @@
       <input type="text" placeholder="Optional">
       <b style="font-size:18px;">Available Trains</b>
       <ul class="train-list" id="train-list">
-        <li onclick="selectTrain(37353)"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(TARAKESWAR LOCAL)</span> <span class="tag">Recommended</span></li>
-        <li onclick="selectTrain(33379)"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(GHOMOHAT LOCAL)</span></li>
+        <li onclick="selectTrain(37353)"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(Tarakeswar LOCAL)</span> <span class="tag">Recommended</span></li>
+        <li onclick="selectTrain(33379)"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(Goghat LOCAL)</span></li>
         <li onclick="selectTrain(33366)"><span class="label">33366</span> --:-- <span class="sub">(No details)</span></li>
         <li onclick="selectTrain(33341)"><span class="label">33341</span> --:-- <span class="sub">(No details)</span></li>
         <li onclick="selectTrain(33318)"><span class="label">33318</span> --:-- <span class="sub">(No details)</span></li>
         <li onclick="selectTrain(33301)"><span class="label">33301</span> --:-- <span class="sub">(No details)</span></li>
       </ul>
-      <button id="crowdBtn" onclick="showPage('crowd')" disabled style="opacity:.7">Show Live Crowd</button>
+      <button id="crowdBtn" onclick="goCrowd()" disabled style="opacity:.7">Show Crowd Detection</button>
     </div>
 
     <!-- Page 2: Crowd Detection -->
@@ -329,7 +329,6 @@
       document.querySelector('.nav a[href="#'+page+'"]').classList.add('active');
       window.scrollTo(0, 0);
     }
-    // Select train and enable button
     let selectedTrain = "";
     function selectTrain(num) {
       selectedTrain = num;
@@ -339,6 +338,9 @@
       crowdBtn.disabled = false;
       crowdBtn.style.opacity = "1";
       document.getElementById('selectedTrain').textContent = num ? num+" (LIVE crowd)" : "---";
+    }
+    function goCrowd() {
+      showPage('crowd');
     }
     if(selectedTrain) document.getElementById('selectedTrain').textContent = selectedTrain+" (LIVE crowd)";
   </script>
