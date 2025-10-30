@@ -1,217 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Crowd Sense Railway Prototype</title>
-  <style>
+import streamlit as st
+from streamlit_option_menu import option_menu
+
+# Custom CSS for blue background & attractive styles
+st.markdown("""
+    <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #0555a7 0%, #b7e7ff 100%);
-      min-height: 100vh;
-      color: #222;
+        background: linear-gradient(135deg, #3a8dde 0%, #1565c0 100%) !important;
     }
-    .container {
-      max-width: 420px;
-      margin: 38px auto 26px auto;
-      padding: 0 0 22px 0;
-      background: #f7fbfc;
-      border-radius: 20px;
-      box-shadow: 0 6px 32px #0449b022;
-      min-height: 620px;
+    .main {
+        background: transparent !important;
     }
-    .hide { display:none;}
-    h1 {
-      color: #0663c7; font-size: 1.5em; margin: 0; padding-top: 22px;
-      letter-spacing: 0.7px; font-weight: 700;
-      text-align: center;
-      margin-bottom: 16px;
+    .stTextInput > div > div > input {
+        background-color: #e3f2fd !important;
+        color: #1565c0 !important;
+        font-weight: 600 !important;
+        border-radius: .5rem !important;
     }
-    img.main-img {
-      display: block;
-      margin: 0 auto 16px auto;
-      border-radius: 9px;
-      box-shadow: 0 2px 16px #3975b4aa;
-      max-width: 94vw; width: 370px;
+    .stButton > button {
+        background: #1565c0 !important;
+        color: white !important;
+        border-radius: .5rem !important;
+        font-size: 17px !important;
+        font-weight: bold !important;
+        border: none;
+        box-shadow: 0 2px 10px rgba(21,101,192,0.1);
     }
-    .card {
-      background: #e0f2ff;
-      border-radius: 14px;
-      box-shadow: 0 3px 16px #2d6ea90f;
-      padding: 17px 14px;
-      margin: 0 18px 15px 18px;
+    .stSelectbox > div > div {
+        background: #e3f2fd !important;
+        color: #1565c0 !important;
+        font-weight: 600 !important;
+        border-radius: .5rem !important;
     }
-    label, .label {
-      display: block; font-weight: 600; margin-bottom: 5px; color: #2770ad;
+    .crowd-bar {
+        display: flex;
+        gap: 4px;
+        margin: 6px 0 12px 0;
+        justify-content: center;
     }
-    input, select, button {
-      padding: 7px 12px;
-      font-size: 1em; border-radius: 8px;
-      border: 1px solid #90cdf4; margin-bottom: 9px;
-      margin-right: 4px;
-      outline: none;
+    .bar {
+        width: 20px;
+        height: 40px;
+        border-radius: 4px;
+        border: 1.5px solid #333;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        color: #fff;
     }
-    button { background: #0476cd; color: #fff; border: none; cursor: pointer;}
-    button:hover { background: #0d56a5;}
-    .search-history {
-      font-size: 0.97em; color: #206d9e; opacity: 0.89;
-      border-top: 1px dashed #aba;
-      margin-top: 6px; padding-top: 3px;
-    }
-    .route-arrow {
-      font-size: 1.4em; color: #2770ad; font-weight: 700; margin: 0 9px; vertical-align: bottom;
-    }
-    .trainlist .label { margin-bottom: 6px;}
-    .trainitem {
-      background: #eaf6fc;
-      border-radius: 10px;
-      margin-bottom: 7px;
-      padding: 8px 14px;
-      box-shadow: 0 2px 10px #1580f022;
-      display: flex; flex-direction: column; cursor:pointer;
-      transition: box-shadow 0.2s;
-    }
-    .trainitem:hover {box-shadow: 0 4px 16px #1580f037;}
-    .trainroute { font-size: 1.10em; color: #1e468a; font-weight: 600; margin-bottom: 3px;}
-    .traindetails { font-size: 0.99em; color: #222; margin-bottom: 1px;}
-    .detailsback { font-size: 0.97em; color: #0c63a5; cursor: pointer; padding-bottom:6px;}
-    .detailsback:hover { text-decoration: underline;}
-    .crowdcard {
-      background: #f8fbff;
-      border-radius: 16px; 
-      box-shadow: 0 3px 14px #5ecfff17; 
-      padding: 15px 13px; margin-top: 14px;
-    }
-    .crowdheader { color: #205888; font-weight: 600; font-size: 1.13em; margin-bottom: 7px;}
-    .stationslist {
-      background: #eaf3fe; border-radius: 7px; padding: 7px; font-size: 0.97em; color: #205888; margin-bottom:6px;
-      box-shadow:0 1px 5px #2077ca15;
-    }
-    .crowdbar {
-      display: flex; gap: 4px; margin: 10px 0 6px 0; justify-content: center;
-    }
-    .crowdlevel {
-      width: 24px; height: 60px; border-radius: 7px 7px 0 0;
-      box-shadow: 0 1px 5px #2077ca44;
-      display: flex; align-items: flex-end; justify-content: center;
-      font-size: 0.96em; font-weight: 700;
-      color: #242;
-    }
-    .high { background: #ff3535;}
-    .medium { background: #ffec79;}
-    .low { background: #4af442;}
-    .legend {
-      text-align: center; margin-top: 3px; margin-bottom: 3px;
-      font-size: 0.92em; color: #2277a9;
-    }
-    .barlabel {
-      font-size: 0.95em; color: #266cae; margin: 0 1px;
-      opacity: 0.7; margin-bottom: 2px;
-    }
-    @media(max-width: 600px) {
-      .container {max-width:99vw;}
-      img.main-img {max-width:99vw;}
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <!-- Home Page -->
-    <div id="homePage">
-      <h1>Crowd Sense</h1>
-      <img src="tom.jpg" class="main-img" alt="Sketch">
-      <div class="card">
-        <label>From</label>
-        <input type="text" id="fromStation" value="Howrah">
-        <span class="route-arrow">&#8595;</span>
-        <label>To</label>
-        <input type="text" id="toStation" value="Nalikul">
-        <br>
-        <button onclick="showList()">Find Trains</button>
-        <br>
-        <label>Train No/Name</label>
-        <input type="text" placeholder="Search Train...">
-        <div class="search-history">Search History: Howrah</div>
-      </div>
-    </div>
-    <!-- Train List Page -->
-    <div id="trainListPage" class="hide">
-      <h1>Available Trains</h1>
-      <div class="card trainlist">
-        <div class="trainitem" onclick="showDetails(0)">
-          <div class="trainroute">Howrah–Tarakeswar Local (37353)</div>
-          <div class="traindetails">Departs: 6:10 PM | Arrives Nalikul: 7:02 PM</div>
+    </style>
+""", unsafe_allow_html=True)
+
+# Sidebar Menu Navigation
+with st.sidebar:
+    selected = option_menu("TRAIN APP", ["Route Select", "Available Trains", "Train Live Tracking"],
+        icons=['geo-alt', 'train-front', 'bar-chart'],
+        menu_icon="cast", default_index=0,
+        styles={
+            "container": {"background": "#1565c0"},
+            "icon": {"color": "white", "font-size": "24px"},
+            "nav-link": {"color": "white", "font-size": "18px", "text-align": "left", "margin":"0px", "--hover-color": "#2196f3"},
+            "nav-link-selected": {"background-color": "#e3f2fd", "color": "#1565c0"},
+        }
+    )
+
+# Page 1: Route Selection
+if selected == "Route Select":
+    st.markdown("<h1 style='color:#fff;'>Select Your Route</h1>", unsafe_allow_html=True)
+    st.text_input("From", value="HOWRAH", key="from_station")
+    st.text_input("To", value="NALIKUL", key="to_station")
+    st.text_input("Train No/Train Name", placeholder="Optional")
+    st.text_input("Search History", placeholder="HOWRAH ...")
+    if st.button("FIND TRAINS"):
+        st.success("Trains Searched! Go to the next page.")
+
+# Page 2: Available Trains
+elif selected == "Available Trains":
+    st.markdown("<h1 style='color:#fff;'>Available Trains</h1>", unsafe_allow_html=True)
+    st.selectbox("All Dates", options=["Today", "Tomorrow"])
+    st.selectbox("Sort By", options=["Time", "Name"])
+    st.markdown("""
+        **HWH-HOWRAH → NKL-NALIKUL**
+        - 37353 : 6:10pm - 7:02pm (HOWRAH-TARAKESWAR LOCAL)
+        - 33379 : 6:40pm - 7:32pm (HOWRAH-GHOMOHAT LOCAL)
+        - 33366 : --:-- (No details)
+        - 33341 : --:-- (No details)
+        - 33318 : --:-- (No details)
+        - 33301 : --:-- (No details)
+    """)
+    st.info("Select a train to track crowd live on the next page.")
+
+# Page 3: Train Live Tracking & Crowd Detection
+else:
+    st.markdown("<h1 style='color:#fff;'>Live Train Tracking</h1>", unsafe_allow_html=True)
+    st.markdown("""
+        <div style="background:#e3f2fd;padding:18px 12px;border-radius:14px;">
+        <b>Train:</b> HOWRAH-TARAKESWAR LOCAL (37379)<br>
+        <b>Today | Alarm | Share</b><br>
+        <b>Arrival:</b> HARIRAL 6:33PM<br>
+        <b>Next Stops:</b><br>
+        - MALIYA HALT 6:36PM<br>
+        - NALIKUL 6:40PM<br>
+        - KAMARKUNDU 6:43PM<br>
+        - SINGUR 6:45PM<br>
         </div>
-        <div class="trainitem" onclick="showDetails(1)">
-          <div class="trainroute">Howrah–Gomoh Local (33379)</div>
-          <div class="traindetails">Departs: 6:40 PM | Arrives Nalikul: 7:32 PM</div>
-        </div>
-        <div class="trainitem" onclick="showDetails(2)">
-          <div class="trainroute">Other Trains…</div>
-          <div class="traindetails">Details hidden</div>
-        </div>
-      </div>
-      <button onclick="backHome()">&#8592; Back</button>
-    </div>
-    <!-- Details + Crowd Detection -->
-    <div id="detailsPage" class="hide">
-      <div class="detailsback" onclick="backList()">&#8592; Back to Trains</div>
-      <h1>Train Details</h1>
-      <div class="card">
-        <div><b>Train:</b> <span id="trainName">Howrah–Tarakeswar Local (37353)</span></div>
-        <div style="margin:5px 0 8px 0;"><b>Arrives Nalikul:</b> <span id="trainTime">7:02 PM</span></div>
-        <div class="crowdcard">
-          <div class="crowdheader">Live Crowd Detection View</div>
-          <div class="stationslist"><b>Route Stations:</b> Hariral, Maliya Halt, Nalikul, Kamarkundu, Singur</div>
-          <div class="crowdbar" id="crowdBar">
-            <!-- Filled by JS below -->
-          </div>
-          <div class="legend">
-            <span style="color:#ff3535;">Red = High Crowd</span>,
-            <span style="color:#ffec79;">Yellow = Medium Crowd</span>,
-            <span style="color:#4af442;">Green = Low Crowd</span>
-          </div>
-          <div class="barlabel">← TAIL    HWH    FRONT →</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Simple JS for navigation, crowd bars -->
-  <script>
-    function showList() {
-      document.getElementById('homePage').classList.add('hide');
-      document.getElementById('trainListPage').classList.remove('hide');
-    }
-    function backHome() {
-      document.getElementById('homePage').classList.remove('hide');
-      document.getElementById('trainListPage').classList.add('hide');
-    }
-    function showDetails(idx) {
-      document.getElementById('trainListPage').classList.add('hide');
-      document.getElementById('detailsPage').classList.remove('hide');
-      // Set train name/time/crowd bar based on selected train
-      let trains = [
-        {name:"Howrah–Tarakeswar Local (37353)",time:"7:02 PM",crowd:["low","medium","medium","high","high","medium","low"]},
-        {name:"Howrah–Gomoh Local (33379)",time:"7:32 PM",crowd:["medium","medium","high","high","medium","low","low"]},
-        {name:"Other Trains...",time:"Unknown",crowd:["medium","medium","medium","medium","medium","medium","medium"]}
-      ];
-      document.getElementById('trainName').textContent = trains[idx].name;
-      document.getElementById('trainTime').textContent = trains[idx].time;
-      let crowdBar = document.getElementById('crowdBar');
-      crowdBar.innerHTML = "";
-      trains[idx].crowd.forEach((level, i) => {
-        crowdBar.innerHTML += `<div class="crowdlevel ${level}">${9-i}</div>`;
-      });
-    }
-    function backList() {
-      document.getElementById('detailsPage').classList.add('hide');
-      document.getElementById('trainListPage').classList.remove('hide');
-    }
-    // Initial crowd bar:
-    window.onload = function() { 
-      showDetails(0); 
-      document.getElementById('detailsPage').classList.add('hide');
-    }
-  </script>
-</body>
-</html>
+    """, unsafe_allow_html=True)
+    st.write(" ")
+    st.info("Arrived: Hariral (just now) | Updated few seconds ago")
+    st.markdown("<h4 style='color:#fff;'>Current Crowd Update</h4>", unsafe_allow_html=True)
+
+    # Static bar crowd levels
+    crowd_levels = [2, 3, 4, 5, 7, 8, 8, 5, 3]
+    crowd_colors = []
+    for lv in crowd_levels:
+        if lv >= 7:
+            crowd_colors.append('#d32f2f')  # High = Red
+        elif lv >= 5:
+            crowd_colors.append('#ffc107')  # Medium = Yellow
+        else:
+            crowd_colors.append('#43a047')  # Low = Green
+
+    st.markdown(
+        '<div class="crowd-bar">' +
+        ''.join([f'<div class="bar" style="background:{color};height:{20 + lv*9}px">{lv}</div>'
+                 for lv, color in zip(crowd_levels, crowd_colors)]) +
+        '</div><div style="text-align:center;color:#fff;font-weight:600">← TAIL HWH FRONT →</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.write("""
+        <span style='color:#fff'>
+        <b>Legend: </b>
+        <span style='background:#d32f2f;color:#fff;padding:2px 7px;border-radius:4px;'>High</span>
+        <span style='background:#ffc107;color:#222;padding:2px 7px;border-radius:4px;'>Medium</span>
+        <span style='background:#43a047;color:#fff;padding:2px 7px;border-radius:4px;'>Low</span>
+        </span>
+    """, unsafe_allow_html=True)
