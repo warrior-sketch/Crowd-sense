@@ -2,175 +2,216 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Crowd Sense Prototype - Eastern Railway</title>
+  <title>Crowd Sense Railway Prototype</title>
   <style>
     body {
-      margin: 0; background: #0855a1;
+      margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0555a7 0%, #b7e7ff 100%);
       min-height: 100vh;
       color: #222;
     }
     .container {
-      max-width: 480px;
-      margin: 32px auto;
-      background: #f3faff;
-      border-radius: 16px;
-      box-shadow: 0 6px 30px #0a3e5a33;
-      padding: 24px 16px 38px 16px;
+      max-width: 420px;
+      margin: 38px auto 26px auto;
+      padding: 0 0 22px 0;
+      background: #f7fbfc;
+      border-radius: 20px;
+      box-shadow: 0 6px 32px #0449b022;
+      min-height: 620px;
     }
+    .hide { display:none;}
     h1 {
-      text-align: center; color: #0663c7;
-      margin-bottom: 8px;
-      font-size: 1.7em;
-      letter-spacing: 0.5px;
+      color: #0663c7; font-size: 1.5em; margin: 0; padding-top: 22px;
+      letter-spacing: 0.7px; font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
     }
-    img.main {
-      display: block; margin: 0 auto 8px auto;
-      max-width: 420px; width: 97vw;
-      border-radius: 12px; box-shadow: 0 2px 16px #3975b4aa;
+    img.main-img {
+      display: block;
+      margin: 0 auto 16px auto;
+      border-radius: 9px;
+      box-shadow: 0 2px 16px #3975b4aa;
+      max-width: 94vw; width: 370px;
     }
     .card {
       background: #e0f2ff;
-      border-radius: 13px;
+      border-radius: 14px;
       box-shadow: 0 3px 16px #2d6ea90f;
-      padding: 18px 14px;
-      margin-bottom: 16px;
+      padding: 17px 14px;
+      margin: 0 18px 15px 18px;
     }
     label, .label {
-      display: block; font-weight: 600; margin-bottom: 4px; color: #2770ad;
+      display: block; font-weight: 600; margin-bottom: 5px; color: #2770ad;
     }
-    .searchbar, .trainlist { margin-bottom: 14px;}
     input, select, button {
       padding: 7px 12px;
-      font-size: 1em; border-radius: 7px;
-      border: 1px solid #90cdf4; margin-bottom: 8px;
+      font-size: 1em; border-radius: 8px;
+      border: 1px solid #90cdf4; margin-bottom: 9px;
       margin-right: 4px;
+      outline: none;
     }
     button { background: #0476cd; color: #fff; border: none; cursor: pointer;}
     button:hover { background: #0d56a5;}
     .search-history {
-      font-size: 0.95em; color: #206d9e;
+      font-size: 0.97em; color: #206d9e; opacity: 0.89;
       border-top: 1px dashed #aba;
-      margin-top: 8px; padding-top: 4px;
+      margin-top: 6px; padding-top: 3px;
     }
     .route-arrow {
-      font-size: 1.5em; color: #2770ad; font-weight: 700; margin: 0 9px;
+      font-size: 1.4em; color: #2770ad; font-weight: 700; margin: 0 9px; vertical-align: bottom;
     }
-    .trainlist .label { margin-bottom: 7px;}
+    .trainlist .label { margin-bottom: 6px;}
     .trainitem {
       background: #eaf6fc;
       border-radius: 10px;
       margin-bottom: 7px;
-      padding: 7px 12px;
+      padding: 8px 14px;
       box-shadow: 0 2px 10px #1580f022;
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; cursor:pointer;
+      transition: box-shadow 0.2s;
     }
-    .trainroute {
-      font-size: 1.04em; color: #1e468a; font-weight: 600;
-      margin-bottom: 3px;
-    }
-    .traindetails {
-      font-size: 0.97em;
-      color: #222;
-      margin-bottom: 2px;
-    }
+    .trainitem:hover {box-shadow: 0 4px 16px #1580f037;}
+    .trainroute { font-size: 1.10em; color: #1e468a; font-weight: 600; margin-bottom: 3px;}
+    .traindetails { font-size: 0.99em; color: #222; margin-bottom: 1px;}
+    .detailsback { font-size: 0.97em; color: #0c63a5; cursor: pointer; padding-bottom:6px;}
+    .detailsback:hover { text-decoration: underline;}
     .crowdcard {
       background: #f8fbff;
-      border-radius: 15px; 
-      box-shadow: 0 3px 14px #5ecfff18; 
-      padding: 17px 14px; margin-top: 14px; margin-bottom: 16px;
+      border-radius: 16px; 
+      box-shadow: 0 3px 14px #5ecfff17; 
+      padding: 15px 13px; margin-top: 14px;
     }
-    .crowdheader {
-      color: #205888; font-weight: 600; font-size: 1.18em; margin-bottom: 7px;
+    .crowdheader { color: #205888; font-weight: 600; font-size: 1.13em; margin-bottom: 7px;}
+    .stationslist {
+      background: #eaf3fe; border-radius: 7px; padding: 7px; font-size: 0.97em; color: #205888; margin-bottom:6px;
+      box-shadow:0 1px 5px #2077ca15;
     }
     .crowdbar {
-      display: flex;
-      gap: 4px;
-      margin: 11px 0 6px 0;
-      justify-content: center;
-    }
-    .barlabel {
-      font-size: 0.95em; color: #266cae; margin: 0 1px;
-      opacity: 0.7;
+      display: flex; gap: 4px; margin: 10px 0 6px 0; justify-content: center;
     }
     .crowdlevel {
-      width: 26px; height: 65px; border-radius: 7px 7px 0 0;
-      box-shadow: 0 2px 7px #2d6ea9aa;
+      width: 24px; height: 60px; border-radius: 7px 7px 0 0;
+      box-shadow: 0 1px 5px #2077ca44;
       display: flex; align-items: flex-end; justify-content: center;
-      font-size: 0.98em; letter-spacing: -1px; color: #242;
-      font-weight: 700;
+      font-size: 0.96em; font-weight: 700;
+      color: #242;
     }
-    /* Color-code crowd bars */
     .high { background: #ff3535;}
     .medium { background: #ffec79;}
     .low { background: #4af442;}
     .legend {
-      text-align: center; margin-top: 5px; margin-bottom: 3px;
-      font-size: 0.93em; color: #2d6ea9;
+      text-align: center; margin-top: 3px; margin-bottom: 3px;
+      font-size: 0.92em; color: #2277a9;
     }
-    .stationslist {
-      background: #eaf3fe; border-radius: 9px; padding: 7px;
-      font-size: 0.99em; color: #205888; margin-bottom:5px;
-      box-shadow:0 1px 5px #2077ca15;
+    .barlabel {
+      font-size: 0.95em; color: #266cae; margin: 0 1px;
+      opacity: 0.7; margin-bottom: 2px;
+    }
+    @media(max-width: 600px) {
+      .container {max-width:99vw;}
+      img.main-img {max-width:99vw;}
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Crowd Sense Prototype</h1>
-    <img src="world.jpg" class="main" alt="Prototype Sketch">
-    
-    <div class="card searchbar">
-      <label>From</label>
-      <input type="text" value="Howrah" readonly>
-      <span class="route-arrow">&#8595;</span>
-      <label>To</label>
-      <input type="text" value="Nalikul" readonly>
-      <br>
-      <button>Find Trains</button>
-      <br>
-      <label>Train No/Name</label>
-      <input type="text" placeholder="Search Train...">
-      <div class="search-history">Search History: Howrah</div>
-    </div>
-    
-    <div class="card trainlist">
-      <div class="label">Available Trains</div>
-      <div class="trainitem">
-        <div class="trainroute">Howrah–Tarakeswar Local (37353)</div>
-        <div class="traindetails">Departs: 6:10 PM | Arrives Nalikul: 7:02 PM</div>
-      </div>
-      <div class="trainitem">
-        <div class="trainroute">Howrah–Gomoh Local (33379)</div>
-        <div class="traindetails">Departs: 6:40 PM | Arrives Nalikul: 7:32 PM</div>
-      </div>
-      <div class="trainitem">
-        <div class="trainroute">Other Trains…</div>
-        <div class="traindetails">Details hidden</div>
+    <!-- Home Page -->
+    <div id="homePage">
+      <h1>Crowd Sense</h1>
+      <img src="tom.jpg" class="main-img" alt="Sketch">
+      <div class="card">
+        <label>From</label>
+        <input type="text" id="fromStation" value="Howrah">
+        <span class="route-arrow">&#8595;</span>
+        <label>To</label>
+        <input type="text" id="toStation" value="Nalikul">
+        <br>
+        <button onclick="showList()">Find Trains</button>
+        <br>
+        <label>Train No/Name</label>
+        <input type="text" placeholder="Search Train...">
+        <div class="search-history">Search History: Howrah</div>
       </div>
     </div>
-    
-    <div class="crowdcard">
-      <div class="crowdheader">Live Crowd Detection View – Train 37379</div>
-      <div class="stationslist">
-        <b>Route Stations:</b> Hariral, Maliya Halt, Nalikul, Kamarkundu, Singur
+    <!-- Train List Page -->
+    <div id="trainListPage" class="hide">
+      <h1>Available Trains</h1>
+      <div class="card trainlist">
+        <div class="trainitem" onclick="showDetails(0)">
+          <div class="trainroute">Howrah–Tarakeswar Local (37353)</div>
+          <div class="traindetails">Departs: 6:10 PM | Arrives Nalikul: 7:02 PM</div>
+        </div>
+        <div class="trainitem" onclick="showDetails(1)">
+          <div class="trainroute">Howrah–Gomoh Local (33379)</div>
+          <div class="traindetails">Departs: 6:40 PM | Arrives Nalikul: 7:32 PM</div>
+        </div>
+        <div class="trainitem" onclick="showDetails(2)">
+          <div class="trainroute">Other Trains…</div>
+          <div class="traindetails">Details hidden</div>
+        </div>
       </div>
-      <div class="crowdbar">
-        <div class="crowdlevel low">9</div>
-        <div class="crowdlevel medium">8</div>
-        <div class="crowdlevel medium">7</div>
-        <div class="crowdlevel high">5</div>
-        <div class="crowdlevel high">3</div>
-        <div class="crowdlevel medium">2</div>
-        <div class="crowdlevel low">1</div>
+      <button onclick="backHome()">&#8592; Back</button>
+    </div>
+    <!-- Details + Crowd Detection -->
+    <div id="detailsPage" class="hide">
+      <div class="detailsback" onclick="backList()">&#8592; Back to Trains</div>
+      <h1>Train Details</h1>
+      <div class="card">
+        <div><b>Train:</b> <span id="trainName">Howrah–Tarakeswar Local (37353)</span></div>
+        <div style="margin:5px 0 8px 0;"><b>Arrives Nalikul:</b> <span id="trainTime">7:02 PM</span></div>
+        <div class="crowdcard">
+          <div class="crowdheader">Live Crowd Detection View</div>
+          <div class="stationslist"><b>Route Stations:</b> Hariral, Maliya Halt, Nalikul, Kamarkundu, Singur</div>
+          <div class="crowdbar" id="crowdBar">
+            <!-- Filled by JS below -->
+          </div>
+          <div class="legend">
+            <span style="color:#ff3535;">Red = High Crowd</span>,
+            <span style="color:#ffec79;">Yellow = Medium Crowd</span>,
+            <span style="color:#4af442;">Green = Low Crowd</span>
+          </div>
+          <div class="barlabel">← TAIL    HWH    FRONT →</div>
+        </div>
       </div>
-      <div class="legend">
-        <span style="color:#ff3535;">Red = High Crowd</span>,
-        <span style="color:#ffec79;">Yellow = Medium Crowd</span>,
-        <span style="color:#4af442;">Green = Low Crowd</span>
-      </div>
-      <div class="barlabel">← TAIL    HWH    FRONT →</div>
     </div>
   </div>
+  <!-- Simple JS for navigation, crowd bars -->
+  <script>
+    function showList() {
+      document.getElementById('homePage').classList.add('hide');
+      document.getElementById('trainListPage').classList.remove('hide');
+    }
+    function backHome() {
+      document.getElementById('homePage').classList.remove('hide');
+      document.getElementById('trainListPage').classList.add('hide');
+    }
+    function showDetails(idx) {
+      document.getElementById('trainListPage').classList.add('hide');
+      document.getElementById('detailsPage').classList.remove('hide');
+      // Set train name/time/crowd bar based on selected train
+      let trains = [
+        {name:"Howrah–Tarakeswar Local (37353)",time:"7:02 PM",crowd:["low","medium","medium","high","high","medium","low"]},
+        {name:"Howrah–Gomoh Local (33379)",time:"7:32 PM",crowd:["medium","medium","high","high","medium","low","low"]},
+        {name:"Other Trains...",time:"Unknown",crowd:["medium","medium","medium","medium","medium","medium","medium"]}
+      ];
+      document.getElementById('trainName').textContent = trains[idx].name;
+      document.getElementById('trainTime').textContent = trains[idx].time;
+      let crowdBar = document.getElementById('crowdBar');
+      crowdBar.innerHTML = "";
+      trains[idx].crowd.forEach((level, i) => {
+        crowdBar.innerHTML += `<div class="crowdlevel ${level}">${9-i}</div>`;
+      });
+    }
+    function backList() {
+      document.getElementById('detailsPage').classList.add('hide');
+      document.getElementById('trainListPage').classList.remove('hide');
+    }
+    // Initial crowd bar:
+    window.onload = function() { 
+      showDetails(0); 
+      document.getElementById('detailsPage').classList.add('hide');
+    }
+  </script>
 </body>
 </html>
