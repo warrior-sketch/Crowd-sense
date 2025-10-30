@@ -120,11 +120,13 @@
       letter-spacing: .06em;
       box-shadow:0 2px 18px #1565c029;
       transition: background .10s, color .10s, box-shadow .09s;
+      opacity:.7;
     }
     button.active, button:focus, button:hover {
       background: #e3f2fd;
       color: #1565c0;
       box-shadow:0 2px 18px #1872c031;
+      opacity:1;
     }
     .train-list {
       margin: 13px 0 0 0; padding-left: 0; list-style: none;
@@ -271,14 +273,14 @@
       <input type="text" placeholder="Optional">
       <b style="font-size:18px;">Available Trains</b>
       <ul class="train-list" id="train-list">
-        <li onclick="selectTrain(37353)"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(Tarakeswar LOCAL)</span> <span class="tag">Recommended</span></li>
-        <li onclick="selectTrain(33379)"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(Goghat LOCAL)</span></li>
-        <li onclick="selectTrain(33366)"><span class="label">33366</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(33341)"><span class="label">33341</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(33318)"><span class="label">33318</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(33301)"><span class="label">33301</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(this,37353,'Tarakeswar LOCAL')"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(Tarakeswar LOCAL)</span> <span class="tag">Recommended</span></li>
+        <li onclick="selectTrain(this,33379,'Goghat LOCAL')"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(Goghat LOCAL)</span></li>
+        <li onclick="selectTrain(this,33366,'No details')"><span class="label">33366</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(this,33341,'No details')"><span class="label">33341</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(this,33318,'No details')"><span class="label">33318</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(this,33301,'No details')"><span class="label">33301</span> --:-- <span class="sub">(No details)</span></li>
       </ul>
-      <button id="crowdBtn" onclick="goCrowd()" disabled style="opacity:.7">Show Crowd Detection</button>
+      <button id="crowdBtn" onclick="goCrowd()" disabled>Show Live Crowd</button>
     </div>
 
     <!-- Page 2: Crowd Detection -->
@@ -322,6 +324,7 @@
     </div>
   </div>
   <script>
+    let selectedTrain = "";
     function showPage(page) {
       document.getElementById('info').style.display = (page === 'info') ? '' : 'none';
       document.getElementById('crowd').style.display = (page === 'crowd') ? '' : 'none';
@@ -329,20 +332,27 @@
       document.querySelector('.nav a[href="#'+page+'"]').classList.add('active');
       window.scrollTo(0, 0);
     }
-    let selectedTrain = "";
-    function selectTrain(num) {
+    function selectTrain(elem, num, trainName) {
       selectedTrain = num;
       document.querySelectorAll('#train-list li').forEach(li=>li.classList.remove('active'));
-      Array.from(document.querySelectorAll('#train-list li')).find(li=>li.textContent.includes(num)).classList.add('active');
+      elem.classList.add('active');
       var crowdBtn = document.getElementById('crowdBtn');
       crowdBtn.disabled = false;
+      crowdBtn.classList.add('active');
       crowdBtn.style.opacity = "1";
-      document.getElementById('selectedTrain').textContent = num ? num+" (LIVE crowd)" : "---";
+      document.getElementById('selectedTrain').textContent = num ? num+" ("+trainName+") LIVE crowd" : "---";
     }
     function goCrowd() {
       showPage('crowd');
     }
-    if(selectedTrain) document.getElementById('selectedTrain').textContent = selectedTrain+" (LIVE crowd)";
+    // Reset crowd button when swapping tabs
+    document.querySelector('.nav a[href="#info"]').addEventListener('click',function(){
+      document.getElementById('crowdBtn').disabled = !selectedTrain;
+      if(selectedTrain)
+          document.getElementById('crowdBtn').classList.add('active');
+      else
+          document.getElementById('crowdBtn').classList.remove('active');
+    });
   </script>
 </body>
 </html>
