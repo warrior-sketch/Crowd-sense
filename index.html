@@ -1,139 +1,250 @@
-import streamlit as st
-from streamlit_option_menu import option_menu
-
-# Custom CSS for blue background & attractive styles
-st.markdown("""
-    <style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Train Crowd Sense</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
     body {
-        background: linear-gradient(135deg, #3a8dde 0%, #1565c0 100%) !important;
+      background: linear-gradient(120deg, #1565c0 0%, #3a8dde 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      color: #fff;
     }
-    .main {
-        background: transparent !important;
+    .container {
+      max-width: 430px;
+      margin: 40px auto 0 auto;
+      padding: 0 15px 30px 15px;
     }
-    .stTextInput > div > div > input {
-        background-color: #e3f2fd !important;
-        color: #1565c0 !important;
-        font-weight: 600 !important;
-        border-radius: .5rem !important;
+    .card {
+      background: rgba(255,255,255,0.11);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(21,101,192,0.08);
+      padding: 22px 25px 23px 25px;
+      margin-bottom: 28px;
+      border: 2px solid #fff2;
     }
-    .stButton > button {
-        background: #1565c0 !important;
-        color: white !important;
-        border-radius: .5rem !important;
-        font-size: 17px !important;
-        font-weight: bold !important;
-        border: none;
-        box-shadow: 0 2px 10px rgba(21,101,192,0.1);
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      font-size: 19px;
+      color: #fff;
+      font-weight: 600;
     }
-    .stSelectbox > div > div {
-        background: #e3f2fd !important;
-        color: #1565c0 !important;
-        font-weight: 600 !important;
-        border-radius: .5rem !important;
+    .nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 28px;
+      background: #1856a5;
+      border-radius: 15px;
+      transition: background .2s;
+    }
+    .nav a.active, .nav a:hover {
+      background: #bbdefb;
+      color: #1565c0;
+    }
+    h2 {
+      font-size: 28px;
+      margin-top: 0;
+      margin-bottom: 18px;
+      color: #fff;
+      font-family: 'Segoe UI', 'Arial', sans-serif;
+      text-shadow: 0 2px 6px #1565c011;
+    }
+    label {
+      font-weight: 600;
+      letter-spacing: .2px;
+    }
+    input[type=text], select {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1.5px solid #1565c0;
+      margin-bottom: 15px;
+      font-size: 16px;
+      background: #e3f2fd;
+      color: #1565c0;
+      font-weight: 600;
+    }
+    button {
+      background: #1565c0;
+      color: #fff;
+      font-weight: bold;
+      padding: 12px 0;
+      font-size: 18px;
+      border-radius: 8px;
+      border: none;
+      box-shadow: 0 2px 8px rgba(21,101,192, 0.12);
+      width: 100%;
+      cursor: pointer;
+      margin-top: 7px;
+      margin-bottom: 7px;
+      transition: background .15s;
+    }
+    button:hover {
+      background: #0d2d5b;
+    }
+    .train-list {
+      margin: 0 0 0 0;
+      padding-left: 0;
+      list-style: none;
+    }
+    .train-list li {
+      padding: 6px 0;
+      font-weight: 500;
+      font-size: 17px;
+      color: #fff;
+      border-bottom: 1px solid #bbdefb55;
+    }
+    .crowd-barrow {
+      display: flex;
+      gap: 7px;
+      justify-content: center;
+      align-items: end;
+      margin: 20px 0 10px 0;
     }
     .crowd-bar {
-        display: flex;
-        gap: 4px;
-        margin: 6px 0 12px 0;
-        justify-content: center;
+      width: 24px;
+      height: 52px;
+      border-radius: 5px;
+      border: 2px solid #fff;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 3px;
+      box-shadow: 0 5px 8px #2221;
     }
-    .bar {
-        width: 20px;
-        height: 40px;
-        border-radius: 4px;
-        border: 1.5px solid #333;
-        display: flex;
-        align-items: end;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: bold;
-        color: #fff;
+    .red    {background: #e53935;}
+    .yellow {background: #ffc107;}
+    .green  {background: #43a047;}
+    .crowd-guide {
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+      margin-top: 7px;
     }
-    </style>
-""", unsafe_allow_html=True)
+    .crowd-legend span {
+      display: inline-block;
+      margin-right: 13px;
+      padding:5px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      box-shadow:0 1px 4px #0001;
+      font-size: 13px;
+    }
+    .legend-high {background:#e53935;}
+    .legend-med {background:#ffc107; color:#222;}
+    .legend-low {background:#43a047;}
+    .stop-dot {
+      display:inline-block;
+      width:15px;
+      height:15px;
+      border-radius:50%;
+      background:#2196f3;
+      margin-right:6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="nav">
+      <a href="#route" class="active" onclick="showPage('route')">Route Select</a>
+      <a href="#available" onclick="showPage('available')">Available Trains</a>
+      <a href="#tracking" onclick="showPage('tracking')">Live Tracking</a>
+    </div>
 
-# Sidebar Menu Navigation
-with st.sidebar:
-    selected = option_menu("TRAIN APP", ["Route Select", "Available Trains", "Train Live Tracking"],
-        icons=['geo-alt', 'train-front', 'bar-chart'],
-        menu_icon="cast", default_index=0,
-        styles={
-            "container": {"background": "#1565c0"},
-            "icon": {"color": "white", "font-size": "24px"},
-            "nav-link": {"color": "white", "font-size": "18px", "text-align": "left", "margin":"0px", "--hover-color": "#2196f3"},
-            "nav-link-selected": {"background-color": "#e3f2fd", "color": "#1565c0"},
-        }
-    )
+    <!-- Page 1 -->
+    <div id="route" class="card">
+      <h2>Step 1: Select Route</h2>
+      <label>From</label>
+      <input type="text" value="HOWRAH">
+      <label>To</label>
+      <input type="text" value="NALIKUL">
+      <label>Train No/Name</label>
+      <input type="text" placeholder="Optional">
+      <label>Search History</label>
+      <input type="text" value="HOWRAH ...">
+      <button onclick="showPage('available')">Find Trains</button>
+    </div>
 
-# Page 1: Route Selection
-if selected == "Route Select":
-    st.markdown("<h1 style='color:#fff;'>Select Your Route</h1>", unsafe_allow_html=True)
-    st.text_input("From", value="HOWRAH", key="from_station")
-    st.text_input("To", value="NALIKUL", key="to_station")
-    st.text_input("Train No/Train Name", placeholder="Optional")
-    st.text_input("Search History", placeholder="HOWRAH ...")
-    if st.button("FIND TRAINS"):
-        st.success("Trains Searched! Go to the next page.")
+    <!-- Page 2 -->
+    <div id="available" class="card" style="display:none;">
+      <h2>Step 2: Available Trains</h2>
+      <label>Show:</label>
+      <select>
+        <option>All Dates</option>
+        <option>Today</option>
+        <option>Tomorrow</option>
+      </select>
+      <label>Sort by:</label>
+      <select>
+        <option>Time</option>
+        <option>Name</option>
+      </select>
+      <b>Route: HWH-HOWRAH → NKL-NALIKUL</b>
+      <ul class="train-list">
+        <li>37353 : 6:10pm - 7:02pm (HOWRAH-TARAKESWAR LOCAL)</li>
+        <li>33379 : 6:40pm - 7:32pm (HOWRAH-GHOMOHAT LOCAL)</li>
+        <li>33366 : --:-- (No details)</li>
+        <li>33341 : --:-- (No details)</li>
+        <li>33318 : --:-- (No details)</li>
+        <li>33301 : --:-- (No details)</li>
+      </ul>
+      <button onclick="showPage('tracking')">Track Crowd</button>
+    </div>
 
-# Page 2: Available Trains
-elif selected == "Available Trains":
-    st.markdown("<h1 style='color:#fff;'>Available Trains</h1>", unsafe_allow_html=True)
-    st.selectbox("All Dates", options=["Today", "Tomorrow"])
-    st.selectbox("Sort By", options=["Time", "Name"])
-    st.markdown("""
-        **HWH-HOWRAH → NKL-NALIKUL**
-        - 37353 : 6:10pm - 7:02pm (HOWRAH-TARAKESWAR LOCAL)
-        - 33379 : 6:40pm - 7:32pm (HOWRAH-GHOMOHAT LOCAL)
-        - 33366 : --:-- (No details)
-        - 33341 : --:-- (No details)
-        - 33318 : --:-- (No details)
-        - 33301 : --:-- (No details)
-    """)
-    st.info("Select a train to track crowd live on the next page.")
+    <!-- Page 3 -->
+    <div id="tracking" class="card" style="display:none;">
+      <h2>Step 3: Live Train Tracking</h2>
+      <b>Train:</b> HOWRAH-TARAKESWAR LOCAL (37379)<br>
+      <b>Today | Alarm | Share</b><br>
+      <b>Arrival:</b> HARIRAL 6:33PM<br>
+      <b>Next Stops:</b> <br>
+      <span class="stop-dot"></span> MALIYA HALT 6:36PM <br>
+      <span class="stop-dot"></span> NALIKUL 6:40PM <br>
+      <span class="stop-dot"></span> KAMARKUNDU 6:43PM <br>
+      <span class="stop-dot"></span> SINGUR 6:45PM <br>
+      <hr style="border:0.5px solid #fff2">
+      <b>Arrived Hariral</b> <br>
+      <i style="color:#bbdefb">Updated few seconds ago</i>
+      <h3 style="margin-top:17px;">Current Crowd Update</h3>
+      <div class="crowd-barrow">
+        <div class="crowd-bar green">9</div>
+        <div class="crowd-bar green">8</div>
+        <div class="crowd-bar yellow">7</div>
+        <div class="crowd-bar yellow">6</div>
+        <div class="crowd-bar red">5</div>
+        <div class="crowd-bar red">4</div>
+        <div class="crowd-bar yellow">3</div>
+        <div class="crowd-bar green">2</div>
+        <div class="crowd-bar green">1</div>
+      </div>
+      <div class="crowd-guide">
+        TAIL &nbsp;&nbsp; HWH &nbsp;&nbsp; FRONT
+      </div>
+      <div class="crowd-legend">
+        <span class="legend-high">High</span>
+        <span class="legend-med">Medium</span>
+        <span class="legend-low">Low</span>
+      </div>
+    </div>
+  </div>
 
-# Page 3: Train Live Tracking & Crowd Detection
-else:
-    st.markdown("<h1 style='color:#fff;'>Live Train Tracking</h1>", unsafe_allow_html=True)
-    st.markdown("""
-        <div style="background:#e3f2fd;padding:18px 12px;border-radius:14px;">
-        <b>Train:</b> HOWRAH-TARAKESWAR LOCAL (37379)<br>
-        <b>Today | Alarm | Share</b><br>
-        <b>Arrival:</b> HARIRAL 6:33PM<br>
-        <b>Next Stops:</b><br>
-        - MALIYA HALT 6:36PM<br>
-        - NALIKUL 6:40PM<br>
-        - KAMARKUNDU 6:43PM<br>
-        - SINGUR 6:45PM<br>
-        </div>
-    """, unsafe_allow_html=True)
-    st.write(" ")
-    st.info("Arrived: Hariral (just now) | Updated few seconds ago")
-    st.markdown("<h4 style='color:#fff;'>Current Crowd Update</h4>", unsafe_allow_html=True)
+  <script>
+    function showPage(page) {
+      document.getElementById('route').style.display = (page === 'route') ? '' : 'none';
+      document.getElementById('available').style.display = (page === 'available') ? '' : 'none';
+      document.getElementById('tracking').style.display = (page === 'tracking') ? '' : 'none';
 
-    # Static bar crowd levels
-    crowd_levels = [2, 3, 4, 5, 7, 8, 8, 5, 3]
-    crowd_colors = []
-    for lv in crowd_levels:
-        if lv >= 7:
-            crowd_colors.append('#d32f2f')  # High = Red
-        elif lv >= 5:
-            crowd_colors.append('#ffc107')  # Medium = Yellow
-        else:
-            crowd_colors.append('#43a047')  # Low = Green
-
-    st.markdown(
-        '<div class="crowd-bar">' +
-        ''.join([f'<div class="bar" style="background:{color};height:{20 + lv*9}px">{lv}</div>'
-                 for lv, color in zip(crowd_levels, crowd_colors)]) +
-        '</div><div style="text-align:center;color:#fff;font-weight:600">← TAIL HWH FRONT →</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.write("""
-        <span style='color:#fff'>
-        <b>Legend: </b>
-        <span style='background:#d32f2f;color:#fff;padding:2px 7px;border-radius:4px;'>High</span>
-        <span style='background:#ffc107;color:#222;padding:2px 7px;border-radius:4px;'>Medium</span>
-        <span style='background:#43a047;color:#fff;padding:2px 7px;border-radius:4px;'>Low</span>
-        </span>
-    """, unsafe_allow_html=True)
+      var navs = document.querySelectorAll('.nav a');
+      navs.forEach(nav => nav.classList.remove('active'));
+      document.querySelector('.nav a[href="#'+page+'"]').classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  </script>
+</body>
+</html>
