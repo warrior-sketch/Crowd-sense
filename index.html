@@ -6,197 +6,288 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
-      background: linear-gradient(120deg, #1565c0 0%, #3a8dde 100%);
+      background: linear-gradient(120deg, #1976d2 0%, #64b5f6 100%);
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
       color: #fff;
+      min-height: 100svh;
     }
     .container {
       max-width: 430px;
-      margin: 40px auto 0 auto;
-      padding: 0 15px 27px 15px;
+      margin: 48px auto 0 auto;
+      padding: 0 14px 30px 14px;
     }
     .card {
-      background: rgba(255,255,255,0.11);
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(21,101,192,0.08);
-      padding: 23px 22px 27px 22px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 22px;
+      box-shadow: 0 8px 24px rgba(21,101,192,0.17);
+      backdrop-filter: blur(6px);
+      padding: 25px 22px 30px 22px;
       margin-bottom: 26px;
-      border: 2px solid #fff2;
+      border: 1.5px solid #afd6fa99;
+      transition: box-shadow .2s;
+      animation: fadein .45s;
+    }
+    @keyframes fadein {
+      from {transform: translateY(16px); opacity:0;}
+      to {transform: translateY(0); opacity:1;}
     }
     .nav {
+      position: sticky;
+      top: 0;
+      z-index: 9;
+      background: rgba(21,119,210,0.93);
       display: flex;
       justify-content: space-between;
-      margin-bottom: 34px;
+      border-radius: 12px;
+      margin-bottom: 36px;
       font-size: 19px;
       color: #fff;
       font-weight: 600;
+      padding: 8px 0px;
+      box-shadow: 0 2px 12px #11497a99;
     }
     .nav a {
       color: #fff;
       text-decoration: none;
-      padding: 11px 34px;
-      background: #1856a5;
-      border-radius: 13px;
-      transition: background .2s;
+      padding: 10px 32px;
+      background: none;
+      border-radius: 10px;
+      transition: background .22s, color .22s;
+      cursor:pointer;
+      font-size: 18px;
+      letter-spacing: .4px;
     }
     .nav a.active, .nav a:hover {
       background: #bbdefb;
-      color: #1565c0;
+      color: #1976d2;
     }
     h2 {
       font-size: 26px;
       margin-top: 0;
-      margin-bottom: 15px;
+      margin-bottom: 14px;
       color: #fff;
+      font-family: inherit;
+      text-shadow: 0 2px 8px #1565c013;
+      font-weight: 700;
     }
     label {
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: .2px;
+      margin-bottom: 3px;
+      display:block;
+      margin-top:10px;
     }
     input[type=text], select {
       width: 100%;
       padding: 8px 12px;
       border-radius: 6px;
-      border: 1.5px solid #1565c0;
-      margin-bottom: 13px;
+      border: 2px solid #1976d2;
+      margin-bottom: 15px;
       font-size: 16px;
       background: #e3f2fd;
       color: #1565c0;
       font-weight: 600;
+      outline:none;
+      box-shadow: 0 0px 4px #1976d211;
+      transition: border .12s;
+    }
+    input:focus, select:focus {
+      border-color: #64b5f6;
     }
     button {
-      background: #1565c0;
+      background: #1976d2;
       color: #fff;
       font-weight: bold;
-      padding: 12px 0;
+      padding: 14px 0;
       font-size: 18px;
-      border-radius: 8px;
+      border-radius: 9px;
       border: none;
-      box-shadow: 0 2px 8px rgba(21,101,192, 0.12);
       width: 100%;
       cursor: pointer;
-      margin: 10px 0 4px 0;
-      transition: background .15s;
+      margin: 12px 0 6px 0;
+      transition: background .16s,box-shadow .13s;
+      box-shadow:0 2px 8px #1976d233;
+      letter-spacing:.03em;
     }
-    button:hover {
-      background: #0d2d5b;
+    button.active, button:hover {
+      background: #bbdefb;
+      color: #1976d2;
     }
     .train-list {
-      margin: 13px 0 0 0;
+      margin: 20px 0 0 0;
       padding-left: 0;
       list-style: none;
     }
     .train-list li {
-      padding: 7px 0 6px 0;
-      font-weight: 500;
-      font-size: 17px;
+      padding: 11px 2px;
+      font-weight: 600;
+      font-size: 18px;
       color: #fff;
-      border-bottom: 1px solid #bbdefb3a;
+      border-bottom: 1px solid #bbdefb4c;
       margin-bottom: 0;
+      width:100%;
+      cursor:pointer;
+      border-radius:10px;
+      transition: background .15s;
+      display:flex;align-items:center;gap:10px;
+    }
+    .train-list li.active, .train-list li:hover {
+      background:#bbdefb33;
+      color:#1565c0;
+    }
+    .train-list .label {
+      background:#1976d2;
+      color:#fff;
+      font-size:14px;
+      padding:2.5px 7px;
+      border-radius:6px;
+      margin-left:auto;
+      margin-right:0;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .crowd-card {
+      background:rgba(255,255,255,0.09);
+      border-radius:14px;
+      padding:18px 14px 18px 14px;
+      margin-bottom:12px;
+      box-shadow: 0 2px 20px #1565c029;
     }
     .crowd-barrow {
       display: flex;
-      gap: 7px;
+      gap: 11px;
       justify-content: center;
       align-items: end;
-      margin: 19px 0 10px 0;
+      margin: 18px 0 9px 0;
+      padding-top:7px;
     }
     .crowd-bar {
-      width: 24px;
-      border-radius: 7px;
-      border: 2px solid #fff;
+      width: 26px;
+      border-radius: 8px;
+      border: 2px solid #e3f2fd;
       display: flex;
       align-items: flex-end;
       justify-content: center;
       font-size: 15px;
       font-weight: bold;
-      color: #fff;
-      margin-bottom: 3px;
-      box-shadow: 0 4px 8px #2222;
+      margin-bottom: 2px;
+      box-shadow: 0 6px 12px #2222;
+      transition:height .2s;
+      position:relative;
+      animation: fadein .60s;
     }
-    .red    {background: #e53935; height: 48px}
-    .yellow {background: #ffc107; height: 38px; color:#222}
-    .green  {background: #43a047; height: 27px}
+    .red    {background: #e53935; height: 51px;}
+    .yellow {background: #ffc107; height: 34px; color:#222;}
+    .green  {background: #43a047; height: 22px;}
     .crowd-guide {
       text-align: center;
       color: #fff;
       font-size: 14px;
-      margin-top: 4px;
-      letter-spacing: 2px;
-      font-weight: 500;
+      margin-top: 3px;
+      font-weight: 600;
+      letter-spacing:2px;
     }
     .crowd-legend span {
       display: inline-block;
       margin-right: 13px;
-      padding:5px 10px;
-      border-radius: 4px;
-      font-weight: 600;
-      box-shadow:0 1px 4px #0001;
-      font-size: 13px;
+      padding:6px 13px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size:15px;
+      margin-top:8px;
     }
     .legend-high {background:#e53935;}
     .legend-med {background:#ffc107; color:#222;}
     .legend-low {background:#43a047;}
     .stop-dot {
       display:inline-block;
-      width:14px;
-      height:14px;
+      width:15px;
+      height:15px;
       border-radius:50%;
       background:#2196f3;
       position:relative;
-      top:2px;
+      top:3px;
       margin-right:8px;
+      box-shadow:0 0 0 2px #fff6;
     }
     .sub {font-size:15px;color:#bbdefb;}
-    .arrived {font-size:15px;font-style:italic;color:#bbdefb;}
-    hr {border:0.5px solid #fff2}
+    .arrived {font-size:16px;font-style:italic;color:#bbdefb;}
+    .crowd-status {
+      padding: 7px 19px;
+      margin: 13px 0 0 0;
+      background: linear-gradient(87deg,#fff2,#bbdefb33);
+      color: #1976d2;
+      font-weight:700;
+      border-radius:7px;
+      box-shadow:0 2px 10px #1976d22c;
+      display:flex;justify-content:center;align-items:center;gap:13px;
+      font-size:17px;
+      letter-spacing:.2px;
+      animation: fadein .4s;
+    }
+    .crowd-status .icon {
+      font-size:24px;
+      margin-right:0px;
+      color:#e53935;
+      vertical-align:middle;
+    }
+    @media (max-width: 480px){
+      .container {margin:12px auto 0 auto;max-width:97vw;padding:2vw;}
+      .card{padding:17px 2vw 18px 2vw;}
+      h2{font-size:20px;}
+      .nav{font-size:15px;}
+    }
   </style>
+  <!-- For nice icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <div class="container">
     <div class="nav">
-      <a href="#info" class="active" onclick="showPage('info')">Train Info</a>
-      <a href="#crowd" onclick="showPage('crowd')">Crowd View</a>
+      <a href="#info" class="active" onclick="showPage('info')"><i class="fa-solid fa-train"></i> Train Info</a>
+      <a href="#crowd" onclick="showPage('crowd')"><i class="fa-solid fa-users"></i> Crowd View</a>
     </div>
 
     <!-- Page 1: Train Info -->
     <div id="info" class="card">
-      <h2>Select Route & View Train Info</h2>
+      <h2>Choose Route & See Train Info</h2>
       <label>From</label>
       <input type="text" value="HOWRAH">
       <label>To</label>
       <input type="text" value="NALIKUL">
       <label>Train No/Name</label>
       <input type="text" placeholder="Optional">
-      <label>Search History</label>
-      <input type="text" value="HOWRAH ...">
-      <b>Available Trains for Route: HWH-HOWRAH → NKL-NALIKUL</b>
-      <ul class="train-list">
-        <li><b>37353</b> : 6:10pm - 7:02pm <span class="sub">(HOWRAH-TARAKESWAR LOCAL)</span></li>
-        <li><b>33379</b> : 6:40pm - 7:32pm <span class="sub">(HOWRAH-GHOMOHAT LOCAL)</span></li>
-        <li><b>33366</b> : --:-- <span class="sub">(No details)</span></li>
-        <li><b>33341</b> : --:-- <span class="sub">(No details)</span></li>
-        <li><b>33318</b> : --:-- <span class="sub">(No details)</span></li>
-        <li><b>33301</b> : --:-- <span class="sub">(No details)</span></li>
+      <b>Available Trains</b>
+      <ul class="train-list" id="train-list">
+        <li onclick="selectTrain(37353)"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(TarakESWAR LOCAL)</span></li>
+        <li onclick="selectTrain(33379)"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(GHOMOHAT LOCAL)</span></li>
+        <li onclick="selectTrain(33366)"><span class="label">33366</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(33341)"><span class="label">33341</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(33318)"><span class="label">33318</span> --:-- <span class="sub">(No details)</span></li>
+        <li onclick="selectTrain(33301)"><span class="label">33301</span> --:-- <span class="sub">(No details)</span></li>
       </ul>
-      <button onclick="showPage('crowd')">Show Crowd Detection</button>
+      <button id="crowdBtn" onclick="showPage('crowd')" disabled style="opacity:.7">Show Crowd Detection</button>
     </div>
 
     <!-- Page 2: Crowd Detection -->
     <div id="crowd" class="card" style="display:none;">
-      <h2>Live Crowd Detection</h2>
-      <b>Train:</b> HOWRAH-TARAKESWAR LOCAL (37379)<br>
-      <span class="arrived">Arrived Hariral | Updated few seconds ago</span>
-      <hr>
-      <b>Stops:</b> <br>
-      <span class="stop-dot"></span> HARIRAL 6:33PM <br>
-      <span class="stop-dot"></span> MALIYA HALT 6:36PM <br>
-      <span class="stop-dot"></span> NALIKUL 6:40PM <br>
-      <span class="stop-dot"></span> KAMARKUNDU 6:43PM <br>
-      <span class="stop-dot"></span> SINGUR 6:45PM <br>
-      <hr>
-      <h3 style="margin-bottom:0;">Current Crowd Update</h3>
+      <h2>Live Crowd Detection <i class="fa-solid fa-users"></i></h2>
+      <div class="crowd-card">
+        <b>Train:</b> <span id="selectedTrain">---</span><br>
+        <span class="arrived">Arrived Hariral | Updated just now</span>
+        <hr>
+        <b>Stops:</b> <br>
+        <span class="stop-dot"></span> HARIRAL 6:33PM <br>
+        <span class="stop-dot"></span> MALIYA HALT 6:36PM <br>
+        <span class="stop-dot"></span> NALIKUL 6:40PM <br>
+        <span class="stop-dot"></span> KAMARKUNDU 6:43PM <br>
+        <span class="stop-dot"></span> SINGUR 6:45PM <br>
+      </div>
+      <div class="crowd-status"><span class="icon"><i class="fa-solid fa-traffic-light"></i></span>
+        High crowd detected at compartments 5 & 4!
+      </div>
+      <h3 style="margin-bottom:0; margin-top:13px;">Current Crowd Bar</h3>
       <div class="crowd-barrow">
         <div class="crowd-bar green">9</div>
         <div class="crowd-bar green">8</div>
@@ -211,7 +302,7 @@
       <div class="crowd-guide">
         TAIL &nbsp; | &nbsp; HWH &nbsp; | &nbsp; FRONT
       </div>
-      <div class="crowd-legend" style="margin:12px 0 0 0;">
+      <div class="crowd-legend" style="margin:15px 0 0 0;">
         <span class="legend-high">High</span>
         <span class="legend-med">Medium</span>
         <span class="legend-low">Low</span>
@@ -222,12 +313,23 @@
     function showPage(page) {
       document.getElementById('info').style.display = (page === 'info') ? '' : 'none';
       document.getElementById('crowd').style.display = (page === 'crowd') ? '' : 'none';
-
-      var navs = document.querySelectorAll('.nav a');
-      navs.forEach(nav => nav.classList.remove('active'));
+      document.querySelectorAll('.nav a').forEach(nav => nav.classList.remove('active'));
       document.querySelector('.nav a[href="#'+page+'"]').classList.add('active');
       window.scrollTo(0, 0);
     }
+    // Select train and enable button
+    let selectedTrain = "";
+    function selectTrain(num) {
+      selectedTrain = num;
+      document.querySelectorAll('#train-list li').forEach(li=>li.classList.remove('active'));
+      Array.from(document.querySelectorAll('#train-list li')).find(li=>li.textContent.includes(num)).classList.add('active');
+      var crowdBtn = document.getElementById('crowdBtn');
+      crowdBtn.disabled = false;
+      crowdBtn.style.opacity = "1";
+      document.getElementById('selectedTrain').textContent = num ? num+" (LIVE crowd)" : "---";
+    }
+    // If you reload page, set selected train in crowd page
+    if(selectedTrain) document.getElementById('selectedTrain').textContent = selectedTrain+" (LIVE crowd)";
   </script>
 </body>
 </html>
