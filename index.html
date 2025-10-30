@@ -2,274 +2,235 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Crowd Sense Train Tracker</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rail CrowdSense | Best Railway Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #faf9f6;
       margin: 0;
-      padding: 0;
-      color: #222;
-    }
-    .container {
-      width: 100%;
-      max-width: 400px;
-      margin: 20px auto;
-      background: #fff;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
-      border-radius: 10px;
-      overflow: hidden;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(to right, #1673e6 0%, #99c4ff 100%);
+      color: #fff;
+      min-height: 100vh;
     }
     header {
-      background: #4B8DF8;
-      color: #fff;
+      background: #0e356c;
+      box-shadow: 0 4px 18px rgba(20,30,80,0.21);
+      padding: 20px 0 10px 0;
       text-align: center;
-      padding: 1rem;
-      border-bottom: 2px solid #2B5CB8;
-      font-size: 1.2rem;
-      letter-spacing: 1px;
     }
-    .step {
-      padding: 20px;
-      display: none;
-    }
-    .step.active {
-      display: block;
-    }
-    label {
-      font-size: 1rem;
-      margin: 8px 0 4px;
-      display: block;
-      font-weight: 500;
-    }
-    input, select, button {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      font-size: 1rem;
-      border-radius: 4px;
-      border: 1px solid #bdbdbd;
-      box-sizing: border-box;
-    }
-    button {
-      background: #4B8DF8;
+    header h1 {
+      font-size: 2.4rem;
+      margin: 0;
+      letter-spacing: 2px;
       color: #fff;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.2s;
+      font-weight: 700;
     }
-    button:hover {
-      background: #366fca;
+    header p {
+      color: #cdecff;
+      margin-top: 8px;
+      font-size: 1.09rem;
+      letter-spacing: 1px;
+      font-weight: 400;
     }
-    .search-history {
-      font-size: 0.9rem;
-      color: #777;
-      margin-bottom: 10px;
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 30px 12px 20px 12px;
     }
-    .train-list {
-      margin-top: 10px;
-    }
-    .train-item {
-      background: #f4f8ff;
-      padding: 10px;
-      border-bottom: 1px solid #e4e4e4;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .train-item:hover {
-      background: #eaf2fc;
+    .banner-img {
+      width: 100%;
+      max-width: 540px;
+      display: block;
+      margin: 22px auto 5px auto;
+      box-shadow: 0 12px 42px rgba(30,100,200,0.22);
+      border-radius: 24px;
+      border: 7px solid #fff;
+      background: #1259bb;
     }
     .stations-list {
-      margin: 14px 0 20px;
-      padding: 0;
-      list-style: none;
-    }
-    .stations-list li {
       display: flex;
-      justify-content: space-between;
-      font-size: 1rem;
-      margin-bottom: 6px;
+      flex-wrap: wrap;
+      gap: 28px 36px;
+      justify-content: center;
+      margin: 40px 0 32px 0;
     }
-    .crowd-bar {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      margin: 10px 0;
-      height: 38px;
-    }
-    .crowd-block {
-      width: 24px;
-      border-radius: 2px 2px 0 0;
-      display: inline-block;
-      text-align: center;
+    .station-card {
+      background: rgba(255,255,255,0.16);
+      border-radius: 18px;
+      box-shadow: 0 3px 15px rgba(10,30,100,0.12);
+      padding: 22px 26px 18px 24px;
+      min-width: 200px;
+      max-width: 330px;
       color: #fff;
-      font-size: 0.85rem;
-    }
-    .crowd-block.low { background: #37c86e; }
-    .crowd-block.medium { background: #f6be37; }
-    .crowd-block.high { background: #ea3434; }
-    .crowd-labels {
       display: flex;
-      justify-content: space-between;
-      font-size: 0.88rem;
-      color: #666;
-      margin-top: 2px;
-      padding-left: 2px;
-      padding-right: 2px;
+      flex-direction: column;
+      align-items: flex-start;
+      border: 2px solid #cdecff;
+      transition: transform 0.19s, box-shadow 0.22s;
     }
-    .crowd-colors {
+    .station-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 12px 35px rgba(16,60,200,0.15);
+    }
+    .station-title {
+      font-size: 1.25em;
+      font-weight: 700;
+      margin-bottom: 0.25em;
+      color: #fffa85;
+      text-shadow: 1px 1px 8px #00000022;
+    }
+    .train-info {
+      font-size: 1.07em;
+      margin-bottom: 0.18em;
+      letter-spacing: 1px;
+    }
+    .arrival {
+      background: #41f7df;
+      color: #033d5c;
+      font-weight: 500;
+      padding: 3px 14px 3px 14px;
+      border-radius: 9px;
+      font-size: 0.92em;
+      margin-right: 5px;
+      margin-bottom: 0.4em;
+      box-shadow: 0 2px 10px #0c6dad49;
+      display: inline-block;
+    }
+    .features {
       display: flex;
-      justify-content: space-between;
-      margin-top: 4px;
-      font-size: 0.9rem;
-      padding: 0 6px;
+      flex-wrap: wrap;
+      gap: 32px 38px;
+      justify-content: center;
+      margin-top: 65px;
+      margin-bottom: 10px;
     }
-    .arrived-info {
-      background: #e2ffe7;
-      padding: 6px;
-      border-radius: 5px;
-      margin-bottom: 7px;
-      font-size: 0.98rem;
-      color: #256a40;
+    .feature-card {
+      background: rgba(255,255,255,0.15);
+      border-radius: 14px;
+      box-shadow: 0 2px 14px rgba(30,60,150,0.10);
+      padding: 21px 22px 16px 22px;
+      color: #fff;
+      min-width: 185px;
+      max-width: 260px;
+      border: 2px solid #fff;
+      text-align: center;
+      font-size: 1.06em;
+      font-weight: 400;
+      transition: box-shadow 0.18s;
     }
-    .actions-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 9px;
+    .feature-card h2 {
+      color: #fffa85;
+      font-size: 1.17em;
+      font-weight: 700;
+      margin-bottom: 0.3em;
+      text-shadow: 1px 1px 8px #00000018;
     }
-    .actions-bar button {
-      width: auto;
-      flex: 1 1 0;
-      margin-bottom: 0;
-      padding: 7px 6px;
-      font-size: 0.97rem;
+    footer {
+      background: #10367a;
+      color: #b7e2ff;
+      text-align: center;
+      padding: 23px 6px 16px 6px;
+      margin-top: 45px;
+      font-size: 1em;
+      letter-spacing: 1px;
+      font-weight: 500;
+      border-top: 3px solid #fff;
+    }
+    @media (max-width: 780px) {
+      .stations-list, .features {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Rail CrowdSense</h1>
+    <p>Best Railway Crowd Management Prototype: Howrah &mdash; Sheoraphuli &mdash; Arambag</p>
+  </header>
   <div class="container">
-    <header>Crowd Sense - Local Train Tracker</header>
-    <!-- Step 1: Search -->
-    <section class="step active" id="step1">
-      <label for="from">From</label>
-      <input id="from" placeholder="e.g., HOWRAH" value="HOWRAH">
-      <label for="to">To</label>
-      <input id="to" placeholder="e.g., NALIKUL" value="NALIKUL">
-      <button onclick="findTrains()">FIND TRAINS</button>
-      <div class="search-history">
-        <span>Search History:</span>
-        <span>HOWRAH</span>
-      </div>
-    </section>
-    <!-- Step 2: Train List -->
-    <section class="step" id="step2">
-      <strong>Available Trains</strong>
-      <div class="train-list" id="train-list"></div>
-      <button onclick="backTo(1)">&#8592; Back</button>
-    </section>
-    <!-- Step 3: Train Detail -->
-    <section class="step" id="step3">
-      <div style="font-size:1.04rem; margin-bottom:8px;">
-        <span id="train-name"></span>
-        <span style="float:right;" id="train-num"></span>
-      </div>
-      <div style="font-size:0.93rem; margin-bottom:7px;" id="arrival-eta"></div>
-      <div class="actions-bar">
-        <button onclick="alert('Alarm set!')">⏰ Alarm</button>
-        <button onclick="alert('Share link copied!')">🔗 Share</button>
-        <button onclick="backTo(2)">&#8592; Back</button>
-      </div>
-      <ul class="stations-list" id="stations-list"></ul>
-      <div class="arrived-info">Arrived HARIRAL<br>Updated few seconds ago</div>
-      <div>
-        <div style="margin-bottom:3px;font-weight:500;">Current Crowd Update</div>
-        <div class="crowd-bar" id="crowd-bar"></div>
-        <div class="crowd-labels">
-          <span>BACK</span>
-          <span>FRONT</span>
+    <!-- Train Banner Image -->
+    <img src="train-banner.jpg" alt="Express Train" class="banner-img">
+
+    <!-- Stations Section -->
+    <section>
+      <h2 style="text-align:center; margin-top:0.6em; color:#fffa85; letter-spacing:2px;">Live Trains & Stations</h2>
+      <div class="stations-list">
+        <div class="station-card">
+          <span class="station-title">HOWRAH</span>
+          <span class="train-info">Train 13123 &mdash; Ganga Express</span>
+          <span class="arrival">Arrives: 08:22</span>
         </div>
-        <div class="crowd-colors">
-          <span style="color:#ea3434;">HIGH</span>
-          <span style="color:#f6be37;">MEDIUM</span>
-          <span style="color:#37c86e;">LOW</span>
+        <div class="station-card">
+          <span class="station-title">SHEORAPHULI</span>
+          <span class="train-info">Train 34567 &mdash; Burra Bazar Local</span>
+          <span class="arrival">Arrives: 08:49</span>
+        </div>
+        <div class="station-card">
+          <span class="station-title">ARAMBAG</span>
+          <span class="train-info">Train 25431 &mdash; Rupashi Express</span>
+          <span class="arrival">Arrives: 09:22</span>
+        </div>
+        <div class="station-card">
+          <span class="station-title">SERAMPORE</span>
+          <span class="train-info">Train 14256 &mdash; Blue Arrow Local</span>
+          <span class="arrival">Arrives: 09:38</span>
+        </div>
+        <div class="station-card">
+          <span class="station-title">BANDEL</span>
+          <span class="train-info">Train 21543 &mdash; Kol Urban</span>
+          <span class="arrival">Arrives: 09:57</span>
+        </div>
+        <div class="station-card">
+          <span class="station-title">GHORESHWAR</span>
+          <span class="train-info">Train 34321 &mdash; Green Valley</span>
+          <span class="arrival">Arrives: 10:16</span>
+        </div>
+        <div class="station-card">
+          <span class="station-title">TARAKESWAR</span>
+          <span class="train-info">Train 10278 &mdash; Pioneer Express</span>
+          <span class="arrival">Arrives: 10:34</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section>
+      <h2 style="text-align:center; margin-top:2.2em; color:#fffa85;">Why CrowdSense Wins Awards?</h2>
+      <div class="features">
+        <div class="feature-card">
+          <h2>Real-Time Occupancy</h2>
+          Live crowd data for every train and platform, so passengers and staff stay safe and informed.
+        </div>
+        <div class="feature-card">
+          <h2>Smart Announcements</h2>
+          AI-powered alerts adapted for schedules, emergencies, and crowd surges.
+        </div>
+        <div class="feature-card">
+          <h2>Interactive Map</h2>
+          Visual journey planner showing platforms, train arrival, and passenger flows.
+        </div>
+        <div class="feature-card">
+          <h2>Multi-Station Connectivity</h2>
+          Data integrates across the entire corridor: Howrah to Sheoraphuli, Arambag, and more!
+        </div>
+        <div class="feature-card">
+          <h2>Mobile Responsive</h2>
+          Elegant interface that works great on phones, tablets, and desktop.
+        </div>
+        <div class="feature-card">
+          <h2>Award-Winning Design</h2>
+          Modern look, smart colors & real railway feel—ready to impress the judges!
         </div>
       </div>
     </section>
   </div>
-  <script>
-    // fake data
-    const trains = [
-      { num: '37353', name: 'HOWRAH-TARAKESWAR LOCAL', time: '6:10 PM - 7:08 PM',
-        stations: [
-          {name:'HARIRAL', arr:'6:33 PM', dep:'6:34 PM'},
-          {name:'MALIYA HALT', arr:'6:36 PM', dep:'6:37 PM'},
-          {name:'NALIKUL', arr:'6:40 PM', dep:'6:41 PM'},
-          {name:'KAMARKUNDU', arr:'6:43 PM', dep:'6:45 PM'},
-          {name:'SINGUR', arr:'--', dep:'--'},
-        ],
-        crowd: ['low', 'low', 'medium', 'high', 'high', 'medium', 'low', 'medium', 'low']
-      },
-      { num: '33379', name: 'HOWRAH-BIDHANAT LOCAL', time: '6:40 PM - 7:32 PM',
-        stations: [
-          {name:'HARIRAL', arr:'7:03 PM', dep:'7:04 PM'},
-          {name:'NALIKUL', arr:'7:20 PM', dep:'7:21 PM'},
-          {name:'KAMARKUNDU', arr:'7:23 PM', dep:'7:25 PM'},
-        ],
-        crowd: ['medium', 'medium', 'high', 'high', 'medium', 'low', 'low', 'medium', 'low']
-      }
-    ];
-
-    function showStep(n) {
-      document.querySelectorAll('.step').forEach((s, i) =>
-        s.classList.toggle('active', i === n - 1)
-      );
-    }
-    function backTo(n) { showStep(n); }
-
-    function findTrains() {
-      const trainListDiv = document.getElementById('train-list');
-      trainListDiv.innerHTML = '';
-      trains.forEach((t, idx) => {
-        const div = document.createElement('div');
-        div.className = "train-item";
-        div.innerHTML = `<b>${t.num}</b> &middot; <span>${t.name}</span><br>
-          <span>${t.time}</span>`;
-        div.onclick = () => selectTrain(idx);
-        trainListDiv.appendChild(div);
-      });
-      showStep(2);
-    }
-    function selectTrain(idx) {
-      const train = trains[idx];
-      document.getElementById('train-name').textContent = train.name;
-      document.getElementById('train-num').textContent = train.num;
-      document.getElementById('arrival-eta').innerHTML =
-        `<b>Arrive HOWRAH:</b> 7:50 PM &nbsp; | &nbsp; <b>Today</b>`;
-
-      const stationsUl = document.getElementById('stations-list');
-      stationsUl.innerHTML = train.stations.map(
-        s => `<li><span>${s.name}</span>
-        <span>${s.arr ? s.arr : ''}</span>
-        <span>${s.dep ? s.dep : ''}</span></li>`
-      ).join('');
-
-      // crowd bars
-      const crowdDiv = document.getElementById('crowd-bar');
-      crowdDiv.innerHTML = '';
-      train.crowd.forEach((level, i) => {
-        const bar = document.createElement('div');
-        bar.className = `crowd-block ${level}`;
-        bar.style.height = `${18 + 18 * (level === 'high' ? 1 : level === 'medium' ? 0.6 : 0.25)}px`;
-        bar.title = `Coach ${i + 1}: ${level.toUpperCase()}`;
-        bar.textContent = i + 1;
-        crowdDiv.appendChild(bar);
-      });
-      showStep(3);
-    }
-  </script>
+  <footer>
+    &copy; 2025 Rail CrowdSense Prototype. All rights reserved. <br>
+    Designed for Best Railway Prototype Award. <br>
+    Contact: <a href="mailto:support@railcrowdsense.com" style="color:#8dccfd;">support@railcrowdsense.com</a>
+  </footer>
 </body>
 </html>
