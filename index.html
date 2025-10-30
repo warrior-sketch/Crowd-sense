@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crowd Sense Train Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #faf9f6;
+      margin: 0;
+      padding: 0;
+      color: #222;
+    }
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 20px auto;
+      background: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.09);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    header {
+      background: #4B8DF8;
+      color: #fff;
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 2px solid #2B5CB8;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+    .step {
+      padding: 20px;
+      display: none;
+    }
+    .step.active {
+      display: block;
+    }
+    label {
+      font-size: 1rem;
+      margin: 8px 0 4px;
+      display: block;
+      font-weight: 500;
+    }
+    input, select, button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #bdbdbd;
+      box-sizing: border-box;
+    }
+    button {
+      background: #4B8DF8;
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #366fca;
+    }
+    .search-history {
+      font-size: 0.9rem;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    .train-list {
+      margin-top: 10px;
+    }
+    .train-item {
+      background: #f4f8ff;
+      padding: 10px;
+      border-bottom: 1px solid #e4e4e4;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .train-item:hover {
+      background: #eaf2fc;
+    }
+    .stations-list {
+      margin: 14px 0 20px;
+      padding: 0;
+      list-style: none;
+    }
+    .stations-list li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .crowd-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      margin: 10px 0;
+      height: 38px;
+    }
+    .crowd-block {
+      width: 24px;
+      border-radius: 2px 2px 0 0;
+      display: inline-block;
+      text-align: center;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+    .crowd-block.low { background: #37c86e; }
+    .crowd-block.medium { background: #f6be37; }
+    .crowd-block.high { background: #ea3434; }
+    .crowd-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: #666;
+      margin-top: 2px;
+      padding-left: 2px;
+      padding-right: 2px;
+    }
+    .crowd-colors {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      padding: 0 6px;
+    }
+    .arrived-info {
+      background: #e2ffe7;
+      padding: 6px;
+      border-radius: 5px;
+      margin-bottom: 7px;
+      font-size: 0.98rem;
+      color: #256a40;
+    }
+    .actions-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .actions-bar button {
+      width: auto;
+      flex: 1 1 0;
+      margin-bottom: 0;
+      padding: 7px 6px;
+      font-size: 0.97rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>Crowd Sense - Local Train Tracker</header>
+    <!-- Step 1: Search -->
+    <section class="step active" id="step1">
+      <label for="from">From</label>
+      <input id="from" placeholder="e.g., HOWRAH" value="HOWRAH">
+      <label for="to">To</label>
+      <input id="to" placeholder="e.g., NALIKUL" value="NALIKUL">
+      <button onclick="findTrains()">FIND TRAINS</button>
+      <div class="search-history">
+        <span>Search History:</span>
+        <span>HOWRAH</span>
+      </div>
+    </section>
+    <!-- Step 2: Train List -->
+    <section class="step" id="step2">
+      <strong>Available Trains</strong>
+      <div class="train-list" id="train-list"></div>
+      <button onclick="backTo(1)">&#8592; Back</button>
+    </section>
+    <!-- Step 3: Train Detail -->
+    <section class="step" id="step3">
+      <div style="font-size:1.04rem; margin-bottom:8px;">
+        <span id="train-name"></span>
+        <span style="float:right;" id="train-num"></span>
+      </div>
+      <div style="font-size:0.93rem; margin-bottom:7px;" id="arrival-eta"></div>
+      <div class="actions-bar">
+        <button onclick="alert('Alarm set!')">⏰ Alarm</button>
+        <button onclick="alert('Share link copied!')">🔗 Share</button>
+        <button onclick="backTo(2)">&#8592; Back</button>
+      </div>
+      <ul class="stations-list" id="stations-list"></ul>
+      <div class="arrived-info">Arrived HARIRAL<br>Updated few seconds ago</div>
+      <div>
+        <div style="margin-bottom:3px;font-weight:500;">Current Crowd Update</div>
+        <div class="crowd-bar" id="crowd-bar"></div>
+        <div class="crowd-labels">
+          <span>BACK</span>
+          <span>FRONT</span>
+        </div>
+        <div class="crowd-colors">
+          <span style="color:#ea3434;">HIGH</span>
+          <span style="color:#f6be37;">MEDIUM</span>
+          <span style="color:#37c86e;">LOW</span>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    // fake data
+    const trains = [
+      { num: '37353', name: 'HOWRAH-TARAKESWAR LOCAL', time: '6:10 PM - 7:08 PM',
+        stations: [
+          {name:'HARIRAL', arr:'6:33 PM', dep:'6:34 PM'},
+          {name:'MALIYA HALT', arr:'6:36 PM', dep:'6:37 PM'},
+          {name:'NALIKUL', arr:'6:40 PM', dep:'6:41 PM'},
+          {name:'KAMARKUNDU', arr:'6:43 PM', dep:'6:45 PM'},
+          {name:'SINGUR', arr:'--', dep:'--'},
+        ],
+        crowd: ['low', 'low', 'medium', 'high', 'high', 'medium', 'low', 'medium', 'low']
+      },
+      { num: '33379', name: 'HOWRAH-BIDHANAT LOCAL', time: '6:40 PM - 7:32 PM',
+        stations: [
+          {name:'HARIRAL', arr:'7:03 PM', dep:'7:04 PM'},
+          {name:'NALIKUL', arr:'7:20 PM', dep:'7:21 PM'},
+          {name:'KAMARKUNDU', arr:'7:23 PM', dep:'7:25 PM'},
+        ],
+        crowd: ['medium', 'medium', 'high', 'high', 'medium', 'low', 'low', 'medium', 'low']
+      }
+    ];
+
+    function showStep(n) {
+      document.querySelectorAll('.step').forEach((s, i) =>
+        s.classList.toggle('active', i === n - 1)
+      );
+    }
+    function backTo(n) { showStep(n); }
+
+    function findTrains() {
+      const trainListDiv = document.getElementById('train-list');
+      trainListDiv.innerHTML = '';
+      trains.forEach((t, idx) => {
+        const div = document.createElement('div');
+        div.className = "train-item";
+        div.innerHTML = `<b>${t.num}</b> &middot; <span>${t.name}</span><br>
+          <span>${t.time}</span>`;
+        div.onclick = () => selectTrain(idx);
+        trainListDiv.appendChild(div);
+      });
+      showStep(2);
+    }
+    function selectTrain(idx) {
+      const train = trains[idx];
+      document.getElementById('train-name').textContent = train.name;
+      document.getElementById('train-num').textContent = train.num;
+      document.getElementById('arrival-eta').innerHTML =
+        `<b>Arrive HOWRAH:</b> 7:50 PM &nbsp; | &nbsp; <b>Today</b>`;
+
+      const stationsUl = document.getElementById('stations-list');
+      stationsUl.innerHTML = train.stations.map(
+        s => `<li><span>${s.name}</span>
+        <span>${s.arr ? s.arr : ''}</span>
+        <span>${s.dep ? s.dep : ''}</span></li>`
+      ).join('');
+
+      // crowd bars
+      const crowdDiv = document.getElementById('crowd-bar');
+      crowdDiv.innerHTML = '';
+      train.crowd.forEach((level, i) => {
+        const bar = document.createElement('div');
+        bar.className = `crowd-block ${level}`;
+        bar.style.height = `${18 + 18 * (level === 'high' ? 1 : level === 'medium' ? 0.6 : 0.25)}px`;
+        bar.title = `Coach ${i + 1}: ${level.toUpperCase()}`;
+        bar.textContent = i + 1;
+        crowdDiv.appendChild(bar);
+      });
+      showStep(3);
+    }
+  </script>
+</body>
+</html>
