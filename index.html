@@ -2,357 +2,245 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Train Crowd Sense</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Crowd Sense – Judge’s Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts for better typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(120deg, #1565c0 0%, #42a5f5 100%) fixed !important;
-      font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
+      background: linear-gradient(120deg, #1565c0, #42a5f5 85%);
+      font-family: 'Montserrat', Arial, sans-serif;
       color: #fff;
       min-height: 100vh;
     }
-    .container {
+    .card {
       max-width: 430px;
-      margin: 54px auto;
-      padding: 0 14px 20px 14px;
+      margin: 2.5rem auto;
+      background: rgba(255,255,255,.17);
+      border-radius: 22px;
+      box-shadow: 0 10px 22px rgba(29, 51, 134, 0.23);
+      padding: 2.3rem 2.1rem;
+      text-align: left;
+      position: relative;
     }
-    .glass {
-      background: rgba(255,255,255,0.14);
-      backdrop-filter: blur(22px);
-      border-radius: 28px;
-      box-shadow: 0 12px 48px #0d47a161;
-      padding: 34px 24px 34px 24px;
-      margin-bottom: 32px;
-      border: 2px solid #e3f2fd63;
-      transition: box-shadow .2s;
-      animation: fadein .45s;
-    }
-    @keyframes fadein {
-      from {transform: translateY(24px); opacity:0;}
-      to {transform: translateY(0); opacity:1;}
-    }
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: flex;
-      justify-content: space-between;
-      gap: 4px;
-      background: rgba(21,101,192,0.97);
-      border-radius: 14px;
-      font-size: 20px;
-      color: #fff;
+    h1 {
+      letter-spacing: 0.02em;
+      font-size: 2.3rem;
       font-weight: 700;
-      box-shadow: 0 2px 14px #1856a599;
-      margin-bottom: 44px;
-      padding: 10px 4px;
+      text-align: center;
+      margin-bottom: 0.5rem;
     }
-    .nav a {
-      flex: 1; 
-      text-align:center;
-      color: #fff;
-      text-decoration: none;
-      padding: 14px 0;
-      margin: 0 2px;
-      background: none;
-      border-radius: 12px;
-      transition: background .23s,color .23s;
-      cursor:pointer;
-      font-size: 18.5px;
-      letter-spacing: .3px;
-      display: flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:2px;
-    }
-    .nav a i {font-size:23px; margin-bottom: 4px;}
-    .nav a.active, .nav a:hover {
-      background: #e3f2fd;
-      color: #1565c0;
-    }
-    h2 {
-      font-size: 28px;
-      margin-top: 0;
-      color: #fff;
-      font-family: inherit;
-      text-shadow: 0 2px 8px #1565c012;
-      font-weight: 800;
-      letter-spacing:.05em;
+    .subtitle {
+      text-align: center;
+      font-size: 1.08rem;
+      font-weight: 500;
+      color: #e3f2fd;
+      margin-bottom: 1.9rem;
     }
     label {
-      font-weight: 700;
-      letter-spacing: .2px;
-      margin-bottom: 3px;
-      display:block;
-      margin-top: 12px;
-      font-size:17px;
+      font-weight: 600;
+      margin-right: 0.8rem;
+      color: #cfe3fe;
     }
-    input[type=text], select {
-      width: 100%;
-      padding: 10px 13px;
-      border-radius: 7px;
-      border: 2px solid #2196f3;
-      margin-bottom: 15px;
-      font-size: 18px;
+    .input-row {
+      display: flex;
+      gap: 0.9rem;
+      margin-bottom: .9rem;
+      justify-content: center;
+    }
+    input {
       background: #e3f2fd;
-      color: #1565c0;
-      font-weight: 700;
-      outline:none;
-      box-shadow: 0 1px 6px #1565c01c;
-      transition: border .13s;
-    }
-    input:focus, select:focus {
-      border-color: #42a5f5;
+      border: none;
+      border-radius: 8px;
+      padding: 0.8rem 0.7rem;
+      font-size: 1.05rem;
+      min-width: 115px;
+      box-shadow: 0 2px 6px rgba(30, 64, 175, 0.13);
     }
     button {
-      background: #1565c0;
+      margin: 1.2rem 0 0.4rem 0;
+      background: linear-gradient(90deg, #1976d2 52%, #1565c0 100%);
       color: #fff;
       font-weight: 700;
-      padding: 15px 0 13px 0;
-      font-size: 19.5px;
-      border-radius: 9px;
       border: none;
-      width: 100%;
+      border-radius: 8px;
+      font-size: 1.04rem;
+      padding: 0.8rem 1.7rem;
+      box-shadow: 0 3px 15px rgba(20,70,180, 0.11);
       cursor: pointer;
-      margin: 15px 0 8px 0;
-      letter-spacing: .06em;
-      box-shadow:0 2px 18px #1565c029;
-      transition: background .10s, color .10s, box-shadow .09s;
-      opacity:.7;
+      transition: background 0.2s, box-shadow 0.2s;
     }
-    button.active, button:focus, button:hover {
-      background: #e3f2fd;
-      color: #1565c0;
-      box-shadow:0 2px 18px #1872c031;
-      opacity:1;
-    }
-    .train-list {
-      margin: 13px 0 0 0; padding-left: 0; list-style: none;
-      border-radius:14px;box-shadow: 0 1px 8px #1565c030;
-      overflow:hidden;
-    }
-    .train-list li {
-      padding: 13px 4px 10px 9px;
-      font-weight: 600;
-      font-size: 18.5px;
-      color: #fff;
-      border-bottom: 1px solid #bbdefb4c;
-      cursor:pointer;
-      display:flex;align-items:center;gap:10px;
-      background:rgba(255,255,255,0);
-      border-radius:0;
-      transition: background .18s, color .15s;
-    }
-    .train-list li:last-child {border-bottom:none;}
-    .train-list li.active, .train-list li:hover {
-      background:#e3f2fd;
-      color:#1565c0;
-    }
-    .train-list .label {
+    button:hover {
       background: #1976d2;
-      color:#fff;
-      font-size:15px;
-      padding:3px 10px;
-      border-radius:10px;
-      margin-right:12px;
-      font-weight: 800;
-      letter-spacing: .13em;
+      box-shadow: 0 5px 24px rgba(69, 120, 227, 0.19);
     }
-    .train-list .tag {font-size:13.7px;color:#90caf9;margin-left:auto;margin-right:10px;}
-    .crowd-card {
-      background:rgba(255,255,255,0.09);
-      border-radius:14px;
-      padding:17px 14px 14px 14px;
-      margin-bottom:11px;
-      box-shadow: 0 2px 22px #1565c036;
+    .train-list, .details {
+      margin: 1.2rem 0;
+      background: #fff3;
+      border-radius: 13px;
+      padding: 1.3rem 1.1rem;
+      color: #114;
     }
-    .crowd-barrow {
-      display: flex; gap: 12px; justify-content: center; align-items: end;
-      margin: 19px 0 8px 0; padding-top:8px;
-    }
-    .crowd-bar {
-      width: 27px;
-      border-radius: 9px;
-      border: 2px solid #e3f2fd;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 2px;
-      box-shadow: 0 6px 14px #2223;
-      transition:height .18s;
-      position:relative;
-      animation: fadein .68s;
-      box-shadow:0 1px 7px #1565c02c;
-    }
-    .red    {background: #e53935; height: 57px;}
-    .yellow {background: #ffc107; height: 36px; color:#222;}
-    .green  {background: #43a047; height: 23px;}
-    .crowd-guide {
-      text-align: center;
+    .train-list button {
+      font-size: 0.96rem;
+      background: #2196f3;
       color: #fff;
-      font-size: 15px;
-      margin-top: 6px;
-      font-weight: 600;
-      letter-spacing:2.4px;
-      text-shadow:0 1px 4px #0d47a12c;
-    }
-    .crowd-legend span {
-      display: inline-block;
-      margin-right: 14px;
-      padding:7px 14px;
+      margin: .24rem 0;
       border-radius: 7px;
-      font-weight: 800;
-      font-size:16px;
-      margin-top:8px;
-      background:#fff6;
-      letter-spacing:0.1em;
-      box-shadow:0 3px 12px #1565c01c;
+      box-shadow: 0 2px 6px rgba(33,150,243,0.16);
     }
-    .legend-high {background:#e53935;}
-    .legend-med {background:#ffc107; color:#222;}
-    .legend-low {background:#43a047;}
-    .stop-dot {
-      display:inline-block;
-      width:17px;
-      height:17px;
-      border-radius:50%;
-      background:#2196f3;
-      position:relative;
-      top:2px;
-      margin-right:9px;
-      box-shadow:0 0 0 2.5px #fff6;
+    .train-list .title {
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+      color: #154eb3;
     }
-    .sub {font-size:15px;color:#90caf9;}
-    .arrived {font-size:17px;font-style:italic;color:#bbdefb;}
-    .crowd-status {
-      padding: 9px 21px;
-      margin: 15px 0 5px 0;
-      background: linear-gradient(87deg,#fff5,#bbdefb52);
-      color: #1976d2;
-      font-weight:800;
-      border-radius:11px;
-      box-shadow:0 2px 14px #1976d22d;
-      display:flex;justify-content:center;align-items:center;gap:14px;font-size:18px;letter-spacing:.19em;
-      animation: fadein .35s;
+    .details strong {
+      color: #1565c0;
     }
-    .crowd-status .icon {
-      font-size:25px;
-      color:#e53935;
-      vertical-align:middle;
+    ul {
+      margin: 0.7rem 0 0 .1rem;
+      padding: 0;
     }
-    @media (max-width: 480px){
-      .container {margin:15px auto 0 auto;max-width:97vw;padding:1.5vw;}
-      .glass{padding:12vw 2vw;}
-      .crowd-card{padding:4vw 2vw;}
-      h2{font-size:20px;}
-      .nav{font-size:15px;}
+    ul li {
+      list-style: none;
+      margin-bottom: .2rem;
+      font-size: 1rem;
+      color: #222;
     }
+    .compartment-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: 1.1rem;
+      margin-bottom: .5rem;
+    }
+    .compartment {
+      width: 34px;
+      height: 56px;
+      border-radius: 7px;
+      box-shadow: 0 2px 7px rgba(11,19,50,0.13);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 3px;
+      transition: transform .19s;
+      animation: bounceIn .6s;
+      border-bottom: 2px solid #fff7;
+      position: relative;
+    }
+    @keyframes bounceIn {
+      0% { transform: scale(0.5);}
+      80% { transform: scale(1.1);}
+      100% { transform: scale(1);}
+    }
+    .compartment .label {
+      font-size: 0.78rem;
+      margin-top: 0.13rem;
+      margin-bottom: 0.11rem;
+      font-weight: 500;
+      color: #fff;
+      background: linear-gradient(90deg, #1565c0, #1976d2);
+      padding: 1px 7px;
+      border-radius: 13px;
+      letter-spacing: 0.02em;
+    }
+    .high { background: linear-gradient(90deg, #e53935 64%, #bc240a 100%); }
+    .med { background: linear-gradient(90deg, #fbc02d 60%, #ff9800 100%); }
+    .low { background: linear-gradient(90deg, #43a047 60%, #388e3c 100%); }
+    .legend {
+      text-align: center;
+      font-size: 0.97rem;
+      margin-top: 1.3rem;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+    }
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .dot {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-left: 2px;
+      border: 2px solid #fff7;
+    }
+    .dot.high { background: #e53935;}
+    .dot.med { background: #fbc02d;}
+    .dot.low { background: #43a047;}
   </style>
-  <!-- For nice icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <div class="nav">
-      <a href="#info" class="active" onclick="showPage('info')"><i class="fa-solid fa-train"></i><span>Train Info</span></a>
-      <a href="#crowd" onclick="showPage('crowd')"><i class="fa-solid fa-users"></i><span>Crowd View</span></a>
+  <div class="card">
+    <h1>Crowd Sense</h1>
+    <div class="subtitle">Track train crowding live. Make every ride comfortable.</div>
+    <div class="input-row">
+      <label for="from">From:</label>
+      <input id="from" type="text" placeholder="Howrah">
+      <label for="to">To:</label>
+      <input id="to" type="text" placeholder="Nalikul">
     </div>
-
-    <!-- Page 1: Train Info -->
-    <div id="info" class="glass">
-      <h2><i class="fa-solid fa-route"></i> Select Route & Train</h2>
-      <label>From</label>
-      <input type="text" value="HOWRAH">
-      <label>To</label>
-      <input type="text" value="NALIKUL">
-      <label>Train No/Name</label>
-      <input type="text" placeholder="Optional">
-      <b style="font-size:18px;">Available Trains</b>
-      <ul class="train-list" id="train-list">
-        <li onclick="selectTrain(this,37353,'Tarakeswar LOCAL')"><span class="label">37353</span> 6:10pm - 7:02pm <span class="sub">(Tarakeswar LOCAL)</span> <span class="tag">Recommended</span></li>
-        <li onclick="selectTrain(this,33379,'Goghat LOCAL')"><span class="label">33379</span> 6:40pm - 7:32pm <span class="sub">(Goghat LOCAL)</span></li>
-        <li onclick="selectTrain(this,33366,'No details')"><span class="label">33366</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(this,33341,'No details')"><span class="label">33341</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(this,33318,'No details')"><span class="label">33318</span> --:-- <span class="sub">(No details)</span></li>
-        <li onclick="selectTrain(this,33301,'No details')"><span class="label">33301</span> --:-- <span class="sub">(No details)</span></li>
-      </ul>
-      <button id="crowdBtn" onclick="goCrowd()" disabled>Show Live Crowd</button>
-    </div>
-
-    <!-- Page 2: Crowd Detection -->
-    <div id="crowd" class="glass" style="display:none;">
-      <h2><i class="fa-solid fa-users"></i> Live Crowd Detection</h2>
-      <div class="crowd-card">
-        <b>Train:</b> <span id="selectedTrain">---</span><br>
-        <span class="arrived"><i class="fa-solid fa-location-arrow"></i> Arrived Hariral | Updated just now</span>
-        <hr>
-        <b>Stops:</b> <br>
-        <span class="stop-dot"></span> HARIRAL 6:33PM <br>
-        <span class="stop-dot"></span> MALIYA HALT 6:36PM <br>
-        <span class="stop-dot"></span> NALIKUL 6:40PM <br>
-        <span class="stop-dot"></span> KAMARKUNDU 6:43PM <br>
-        <span class="stop-dot"></span> SINGUR 6:45PM <br>
-      </div>
-      <div class="crowd-status">
-        <span class="icon"><i class="fa-solid fa-traffic-light"></i></span>
-        <span>High crowd at compartments <b>5 & 4</b>!</span>
-      </div>
-      <h3 style="margin-bottom:0; margin-top:16px;font-size:20px;letter-spacing:.1em">Crowd Bar</h3>
-      <div class="crowd-barrow">
-        <div class="crowd-bar green" title="Tail">9</div>
-        <div class="crowd-bar green">8</div>
-        <div class="crowd-bar yellow">7</div>
-        <div class="crowd-bar yellow">6</div>
-        <div class="crowd-bar red" title="Most Crowded">5</div>
-        <div class="crowd-bar red">4</div>
-        <div class="crowd-bar yellow">3</div>
-        <div class="crowd-bar green">2</div>
-        <div class="crowd-bar green" title="Front">1</div>
-      </div>
-      <div class="crowd-guide">
-        <span>TAIL</span> &nbsp; | &nbsp; <i class="fa-solid fa-train"></i> HWH &nbsp; | &nbsp; <span>FRONT</span>
-      </div>
-      <div class="crowd-legend" style="margin:15px 0 0 0;">
-        <span class="legend-high">High</span>
-        <span class="legend-med">Medium</span>
-        <span class="legend-low">Low</span>
-      </div>
+    <button id="findTrains">Find Trains</button>
+    <div id="trainList" class="train-list" style="display:none;"></div>
+    <div id="details" class="details" style="display:none;"></div>
+    <div class="legend">
+      <span>High Crowding <span class="dot high"></span></span>
+      <span>Medium <span class="dot med"></span></span>
+      <span>Low <span class="dot low"></span></span>
     </div>
   </div>
   <script>
-    let selectedTrain = "";
-    function showPage(page) {
-      document.getElementById('info').style.display = (page === 'info') ? '' : 'none';
-      document.getElementById('crowd').style.display = (page === 'crowd') ? '' : 'none';
-      document.querySelectorAll('.nav a').forEach(nav => nav.classList.remove('active'));
-      document.querySelector('.nav a[href="#'+page+'"]').classList.add('active');
-      window.scrollTo(0, 0);
-    }
-    function selectTrain(elem, num, trainName) {
-      selectedTrain = num;
-      document.querySelectorAll('#train-list li').forEach(li=>li.classList.remove('active'));
-      elem.classList.add('active');
-      var crowdBtn = document.getElementById('crowdBtn');
-      crowdBtn.disabled = false;
-      crowdBtn.classList.add('active');
-      crowdBtn.style.opacity = "1";
-      document.getElementById('selectedTrain').textContent = num ? num+" ("+trainName+") LIVE crowd" : "---";
-    }
-    function goCrowd() {
-      showPage('crowd');
-    }
-    // Reset crowd button when swapping tabs
-    document.querySelector('.nav a[href="#info"]').addEventListener('click',function(){
-      document.getElementById('crowdBtn').disabled = !selectedTrain;
-      if(selectedTrain)
-          document.getElementById('crowdBtn').classList.add('active');
-      else
-          document.getElementById('crowdBtn').classList.remove('active');
-    });
+    // Demo trains for judge
+    const trains = [
+      { id: 1, name: "Howrah-Tarakeswar Local", time: "6:10 PM - 7:02 PM", route: ["Hariral", "Maliya Halt", "Nalikul", "Kamarkundu", "Singur"], crowd: [8,6,4,2,5,7,9] },
+      { id: 2, name: "Howrah-Odoyhat Local", time: "6:40 PM - 7:37 PM", route: ["Hariral", "Maliya Halt", "Nalikul", "Kamarkundu", "Singur"], crowd: [4,3,7,8,6,3,2] }
+    ];
+    document.getElementById('findTrains').onclick = function() {
+      let trainListDiv = document.getElementById('trainList');
+      trainListDiv.style.display = 'block';
+      let html = '<div class="title">Available Trains</div>';
+      trains.forEach(t =>
+        html += `<div>
+          <button onclick="showDetails(${t.id})">${t.name} <span style="font-weight:400;">(${t.time})</span></button>
+        </div>`
+      );
+      trainListDiv.innerHTML = html;
+      document.getElementById('details').style.display = 'none';
+    };
+    window.showDetails = function(trainId) {
+      let detailsDiv = document.getElementById('details');
+      detailsDiv.style.display = 'block';
+      let t = trains.find(x => x.id === trainId);
+      detailsDiv.innerHTML =
+        `<div>
+          <strong>${t.name}</strong> <em>${t.time}</em>
+          <ul>
+            ${t.route.map((stop, i) => `<li>${stop}</li>`).join('')}
+          </ul>
+          <div style="font-weight:600;margin-top:1.1rem;margin-bottom:0.7rem;">Live Compartment Crowd Map</div>
+          <div class="compartment-row">
+            ${t.crowd.map((level, idx) => {
+              let grade = level >=7 ? 'high' : level >=4 ? 'med' : 'low';
+              let gradeTxt = grade[0].toUpperCase() + grade.slice(1);
+              return `<div class="compartment ${grade}" title="Compartment ${idx+1}: ${gradeTxt} crowd level">
+                <span>${level}</span>
+                <span class="label">C${idx+1}</span>
+              </div>`;
+            }).join('')}
+          </div>
+          <button onclick="alert('Alarm Set for Arrival!')">Set Alarm</button>
+          <button onclick="alert('Journey Shared!')">Share</button>
+        </div>`;
+    };
   </script>
 </body>
 </html>
